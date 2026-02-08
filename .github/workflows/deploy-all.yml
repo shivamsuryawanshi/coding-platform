@@ -33,6 +33,7 @@ jobs:
       - name: Save Docker image
         run: |
           docker save ${{ matrix.judge.name }}:latest -o ${{ matrix.judge.name }}-image.tar
+          chmod 644 ${{ matrix.judge.name }}-image.tar
 
       - name: Copy image to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -94,6 +95,7 @@ jobs:
       - name: Save Docker image
         run: |
           docker save coding-platform-backend:latest -o backend-image.tar
+          chmod 644 backend-image.tar
 
       - name: Copy image to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -145,6 +147,7 @@ jobs:
       - name: Save Docker image
         run: |
           docker save coding-platform-frontend:latest -o frontend-image.tar
+          chmod 644 frontend-image.tar
 
       - name: Copy image to EC2
         uses: appleboy/scp-action@v0.1.7

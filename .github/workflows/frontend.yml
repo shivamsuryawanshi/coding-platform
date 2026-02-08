@@ -39,6 +39,7 @@ jobs:
       - name: Save Docker image
         run: |
           docker save ${{ env.IMAGE_NAME }}:latest -o frontend-image.tar
+          chmod 644 frontend-image.tar
 
       # Step 5: Copy image to EC2
       - name: Copy image to EC2
