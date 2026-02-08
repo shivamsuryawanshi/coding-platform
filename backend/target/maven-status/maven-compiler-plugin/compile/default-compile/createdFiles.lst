@@ -1,0 +1,10 @@
+com\codingplatform\service\JudgeService.class
+com\codingplatform\controller\SubmissionController.class
+com\codingplatform\dto\SubmissionRequest.class
+com\codingplatform\config\JudgeServiceConfig.class
+com\codingplatform\config\RestTemplateConfig.class
+com\codingplatform\service\JudgeService$JudgeServiceException.class
+com\codingplatform\CodingPlatformApplication.class
+com\codingplatform\config\JudgeServiceConfig$1.class
+com\codingplatform\dto\JudgeResponse.class
+com\codingplatform\dto\SubmissionResponse.class

@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+# Judge service configuration
+# For local testing: use localhost
+# For EC2: use 16.171.153.214
+judge:
+  service:
+    host: ${JUDGE_HOST:13.60.234.24}
+    ports:
+      python: 5000
+      cpp: 5002
+      java: 5003
+      js: 5004
+    timeout:
+      connect: 5000
+      read: 30000
+
+# Logging configuration
+logging:
+  level:
+    com.codingplatform: DEBUG
+    org.springframework.web: INFO
+
+spring:
+  application:
+    name: coding-platform-backend
+

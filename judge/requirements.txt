@@ -1,0 +1,8 @@
+# Core Flask framework
+Flask==3.0.0
+
+# WSGI utilities (Flask dependency)
+Werkzeug==3.0.1
+
+# Production WSGI server (used instead of Flask dev server in Docker)
+gunicorn==21.2.0
