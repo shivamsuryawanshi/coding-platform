@@ -2,11 +2,12 @@ server:
   port: 8080
 
 # Judge service configuration
-# For local testing: use localhost
-# For EC2: use 16.171.153.214
+# JUDGE_HOST environment variable controls where to find judges:
+# - For Docker on EC2: host.docker.internal (access host from container)
+# - For local dev: localhost or EC2 IP
 judge:
   service:
-    host: ${JUDGE_HOST:13.60.234.24}
+    host: ${JUDGE_HOST:host.docker.internal}
     ports:
       python: 5000
       cpp: 5002
@@ -19,7 +20,7 @@ judge:
 # Logging configuration
 logging:
   level:
-    com.codingplatform: DEBUG
+    com.codingplatform: INFO
     org.springframework.web: INFO
 
 spring:

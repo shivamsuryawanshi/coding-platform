@@ -1,313 +1,183 @@
-# Coding Platform - Core Judgement System
+# CodeNexus - Online Coding Platform
 
-A real-world coding platform architecture with separate Backend (Manager) and Judge (Worker) services.
+A complete coding platform like LeetCode/CodeChef with multi-language support, built with modern technologies and automated CI/CD.
 
-## Architecture Overview
+## 🎯 Features
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        CODING PLATFORM                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────────┐          HTTP           ┌─────────────┐       │
-│  │             │  POST /judge            │             │       │
-│  │   BACKEND   │ ───────────────────────>│    JUDGE    │       │
-│  │   (Java)    │                         │  (Python)   │       │
-│  │             │ <───────────────────────│             │       │
-│  │  Port 8080  │       {verdict}         │  Port 5000  │       │
-│  └─────────────┘                         └─────────────┘       │
-│        │                                        │               │
-│        │                                        │               │
-│   - Receives code                          - Executes code     │
-│   - Validates input                        - Runs test cases   │
-│   - Forwards to judge                      - Compares output   │
-│   - Returns verdict                        - Returns verdict   │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+- **Multi-language Support**: Python, C++, Java, JavaScript
+- **Real-time Code Execution**: Isolated Docker containers for each language
+- **Auto-deployment**: GitHub Actions CI/CD pipelines
+- **Scalable Architecture**: Microservices-based design
 
-## Why This Design?
-
-### Security
-User-submitted code is **untrusted**. It could:
-- Contain infinite loops
-- Access the filesystem
-- Make network requests
-- Execute malicious commands
-
-By isolating code execution in a separate service, we can:
-- Sandbox the judge (Docker, VM)
-- Apply resource limits (CPU, memory, network)
-- Kill runaway processes
-- Scale independently
-
-### Scalability
-```
-                     ┌─────────┐
-                     │ Judge 1 │
-                     └─────────┘
-┌─────────┐          ┌─────────┐
-│ Backend │────────> │ Judge 2 │
-└─────────┘          └─────────┘
-                     ┌─────────┐
-                     │ Judge 3 │
-                     └─────────┘
-```
-
-In production:
-- Multiple judge instances handle concurrent submissions
-- Judges can be deployed on separate EC2 instances
-- Each judge runs inside a Docker container
-- Load balancer distributes submissions
-
-## Data Flow
+## 🏗️ Architecture
 
 ```
-1. User submits code
-   │
-   ▼
-2. Backend receives POST /submit
-   │
-   ├── Validates request
-   │
-   ▼
-3. Backend calls Judge POST /judge
-   │
-   ▼
-4. Judge saves code to temp file
-   │
-   ▼
-5. Judge runs code for each test case
-   │
-   ├── Pass input via STDIN
-   ├── Capture STDOUT/STDERR
-   ├── Compare with expected output
-   │
-   ▼
-6. Judge returns verdict
-   │
-   ▼
-7. Backend returns verdict to user
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Frontend   │────▶│   Backend   │────▶│   Judges    │
+│   (React)   │     │  (Spring)   │     │  (Docker)   │
+│   Port:80   │     │  Port:8080  │     │ 5000-5004   │
+└─────────────┘     └─────────────┘     └─────────────┘
 ```
 
-## Quick Start
+## 📁 Project Structure
 
-### 1. Start the Judge Service
+```
+coding-platform/
+├── frontend/          # React + Vite + TypeScript
+├── backend/           # Spring Boot REST API
+├── judge-python/      # Python 3.10 judge (Port: 5000)
+├── judge-cpp/         # GCC C++17 judge (Port: 5002)
+├── judge-java/        # JDK 17 judge (Port: 5003)
+├── judge-js/          # Node.js LTS judge (Port: 5004)
+└── .github/workflows/ # CI/CD pipelines
+```
+
+## 🚀 Quick Start
+
+### Local Development
 
 ```bash
-cd judge
+# Start judges (choose one)
+cd judge-python && python judge.py
 
-# Install dependencies
-pip install -r requirements.txt
+# Start backend
+cd backend && mvn spring-boot:run
 
-# Run the judge
-python judge.py
+# Start frontend
+cd frontend && npm install && npm run dev
+
+# Open http://localhost:3000
 ```
 
-Judge will start on http://localhost:5000
-
-### 2. Start the Backend Service
+### Docker Deployment
 
 ```bash
-cd backend
+# Build and run all services
+docker build -t judge-python ./judge-python
+docker run -d -p 5000:5000 judge-python
 
-# Build and run (requires Maven and Java 17+)
-mvn spring-boot:run
+docker build -t backend ./backend
+docker run -d -p 8080:8080 backend
+
+docker build -t frontend ./frontend
+docker run -d -p 80:80 frontend
 ```
 
-Backend will start on http://localhost:8080
+## 🔄 CI/CD
 
-### 3. Test the System
+Each service has its own GitHub Actions workflow:
 
-#### Correct Solution (Accepted)
+| Service | Trigger Path | Deployment |
+|---------|--------------|------------|
+| Frontend | `frontend/**` | Auto-deploy to EC2:80 |
+| Backend | `backend/**` | Auto-deploy to EC2:8080 |
+| Python Judge | `judge-python/**` | Auto-deploy to EC2:5000 |
+| C++ Judge | `judge-cpp/**` | Auto-deploy to EC2:5002 |
+| Java Judge | `judge-java/**` | Auto-deploy to EC2:5003 |
+| JS Judge | `judge-js/**` | Auto-deploy to EC2:5004 |
 
-**Windows (PowerShell):**
-```powershell
-$body = @{
-    code = "a, b = map(int, input().split())`nprint(a + b)"
-} | ConvertTo-Json
+### Required GitHub Secrets
 
-Invoke-RestMethod -Uri "http://localhost:8080/submit" -Method Post -Body $body -ContentType "application/json"
+| Secret | Description |
+|--------|-------------|
+| `EC2_HOST` | EC2 public IP address |
+| `EC2_USER` | SSH username (ubuntu) |
+| `EC2_SSH_KEY` | SSH private key content |
+
+## 📝 API Endpoints
+
+### Backend API
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Health check |
+| GET | `/problem` | Get problem statement |
+| GET | `/languages` | Get supported languages |
+| POST | `/submit` | Submit code for judging |
+
+### Submit Request
+
+```json
+{
+  "language": "python",
+  "code": "a, b = map(int, input().split())\nprint(a + b)"
+}
 ```
 
-**Windows (CMD with curl):**
-```cmd
-curl -X POST http://localhost:8080/submit -H "Content-Type: application/json" -d "{\"code\": \"a, b = map(int, input().split())\\nprint(a + b)\"}"
-```
+### Submit Response
 
-**Expected Response:**
 ```json
 {
   "verdict": "Accepted",
   "passed": 3,
   "total": 3,
-  "failedTest": null,
-  "timestamp": "2024-01-15T10:30:00Z"
+  "failedTest": null
 }
 ```
 
-#### Wrong Answer
+## 🐳 Docker Images
 
-```powershell
-$body = @{
-    code = "a, b = map(int, input().split())`nprint(a - b)"
-} | ConvertTo-Json
+| Service | Base Image | Size |
+|---------|------------|------|
+| Frontend | nginx:alpine | ~25MB |
+| Backend | eclipse-temurin:17-jre | ~250MB |
+| Python Judge | python:3.10-slim | ~150MB |
+| C++ Judge | gcc:latest | ~1.2GB |
+| Java Judge | eclipse-temurin:17-jdk | ~400MB |
+| JS Judge | node:lts-slim | ~200MB |
 
-Invoke-RestMethod -Uri "http://localhost:8080/submit" -Method Post -Body $body -ContentType "application/json"
+## ⚙️ Configuration
+
+### Backend (application.yml)
+
+```yaml
+judge:
+  service:
+    host: ${JUDGE_HOST:host.docker.internal}
+    ports:
+      python: 5000
+      cpp: 5002
+      java: 5003
+      js: 5004
 ```
 
-**Expected Response:**
-```json
-{
-  "verdict": "Wrong Answer",
-  "passed": 0,
-  "total": 3,
-  "failedTest": {
-    "test_id": 1,
-    "input": "1 2",
-    "expected": "3",
-    "actual": "-1"
-  }
-}
-```
+### Resource Limits (per container)
 
-#### Runtime Error
+- Memory: 512MB (judges), 256MB (frontend)
+- CPU: 0.5 cores
+- Execution timeout: 5 seconds
 
-```powershell
-$body = @{
-    code = "print(1/0)"
-} | ConvertTo-Json
+## 🔐 Security
 
-Invoke-RestMethod -Uri "http://localhost:8080/submit" -Method Post -Body $body -ContentType "application/json"
-```
+- Judges run in isolated containers
+- Temp files cleaned after execution
+- Hard execution timeouts
+- No network access from user code
+- Resource limits enforced
 
-**Expected Response:**
-```json
-{
-  "verdict": "Runtime Error",
-  "passed": 0,
-  "total": 3,
-  "failedTest": {
-    "test_id": 1,
-    "error": "ZeroDivisionError: division by zero"
-  }
-}
-```
+## 📊 Verdicts
 
-#### Time Limit Exceeded
+| Verdict | Description |
+|---------|-------------|
+| ✅ Accepted | All test cases passed |
+| ❌ Wrong Answer | Output doesn't match expected |
+| ⚠️ Runtime Error | Code crashed during execution |
+| ⏱️ Time Limit Exceeded | Execution took too long |
+| 🔨 Compilation Error | Code failed to compile (C++/Java) |
 
-```powershell
-$body = @{
-    code = "while True: pass"
-} | ConvertTo-Json
+## 📖 Documentation
 
-Invoke-RestMethod -Uri "http://localhost:8080/submit" -Method Post -Body $body -ContentType "application/json"
-```
+- [Deployment Guide](DEPLOYMENT.md)
+- [Testing Guide](docs/testing.md)
 
-**Expected Response:**
-```json
-{
-  "verdict": "Time Limit Exceeded",
-  "passed": 0,
-  "total": 3,
-  "failedTest": {
-    "error": "Execution timed out"
-  }
-}
-```
+## 🛠️ Tech Stack
 
-## Project Structure
+- **Frontend**: React, TypeScript, Vite, CSS
+- **Backend**: Java 17, Spring Boot 3.2, Maven
+- **Judges**: Python, Flask, Gunicorn
+- **Infrastructure**: Docker, Nginx, GitHub Actions
+- **Cloud**: AWS EC2 (Ubuntu)
 
-```
-coding-platform/
-├── README.md                 # This file
-├── backend/                  # Java Spring Boot backend
-│   ├── pom.xml
-│   ├── README.md
-│   └── src/main/
-│       ├── java/com/codingplatform/
-│       │   ├── CodingPlatformApplication.java
-│       │   ├── controller/
-│       │   │   └── SubmissionController.java
-│       │   ├── service/
-│       │   │   └── JudgeService.java
-│       │   ├── dto/
-│       │   │   ├── SubmissionRequest.java
-│       │   │   ├── SubmissionResponse.java
-│       │   │   └── JudgeResponse.java
-│       │   └── config/
-│       │       ├── RestTemplateConfig.java
-│       │       └── JudgeServiceConfig.java
-│       └── resources/
-│           └── application.yml
-│
-└── judge/                    # Python judge service
-    ├── judge.py              # Main judge service
-    ├── testcases.py          # Test case definitions
-    ├── requirements.txt      # Python dependencies
-    └── README.md
-```
-
-## Problem Definition
-
-**Problem: Sum of Two Numbers**
-
-Given two integers `a` and `b`, print their sum.
-
-**Input Format:**
-Two space-separated integers `a` and `b`
-
-**Output Format:**
-A single integer representing `a + b`
-
-**Test Cases:**
-| Input | Expected Output |
-|-------|-----------------|
-| 1 2   | 3               |
-| 5 7   | 12              |
-| 100 200 | 300           |
-
-**Correct Solution:**
-```python
-a, b = map(int, input().split())
-print(a + b)
-```
-
-## Future Roadmap
-
-### Phase 1: Docker Isolation
-- Wrap judge in Docker container
-- Apply resource limits (CPU, memory)
-- Network isolation
-
-### Phase 2: Multi-Language Support
-- Add C++ compiler
-- Add Java compiler  
-- Add JavaScript runtime
-
-### Phase 3: Production Deployment
-- Deploy on AWS EC2
-- Add load balancer
-- Implement queue system (Redis/RabbitMQ)
-- Multiple judge instances
-
-### Phase 4: Full Platform
-- User authentication
-- Problem database
-- Submission history
-- Leaderboards
-- Contests
-
-## Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| Backend | Java 17, Spring Boot 3.2 |
-| Judge | Python 3.10+, Flask |
-| Communication | REST/HTTP JSON |
-| Build Tool | Maven |
-
-## License
+## 📄 License
 
 MIT License
-
