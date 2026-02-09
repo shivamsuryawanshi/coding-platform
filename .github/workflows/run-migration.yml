@@ -1,0 +1,71 @@
+# Run Data Migration on EC2 (uses IAM Role for S3)
+# This uploads all questions from local to AWS RDS + S3
+
+name: Run Data Migration
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  migrate-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Copy questions and scripts to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "scripts/*,questions/*"
+          target: "~/codenexus/"
+          timeout: 300s
+
+      - name: Run migration on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          command_timeout: 30m
+          script: |
+            echo "=========================================="
+            echo "   RUNNING DATA MIGRATION"
+            echo "=========================================="
+            
+            # Install dependencies
+            sudo apt-get update
+            sudo apt-get install -y python3-pip mysql-client
+            pip3 install boto3 mysql-connector-python
+            
+            cd ~/codenexus/scripts
+            
+            # Run schema first
+            echo "Applying database schema..."
+            mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} < schema.sql || echo "Schema may already exist"
+            
+            # Set environment variables
+            export DB_HOST=${{ secrets.DB_HOST }}
+            export DB_USER=${{ secrets.DB_USER }}
+            export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
+            export DB_NAME=${{ secrets.DB_NAME }}
+            export DB_PORT=3306
+            export S3_BUCKET=${{ secrets.S3_BUCKET }}
+            export AWS_REGION=eu-north-1
+            
+            # Run migration
+            echo "Running migration script..."
+            python3 migrate_questions.py
+            
+            # Verify
+            echo ""
+            echo "=========================================="
+            echo "   MIGRATION VERIFICATION"
+            echo "=========================================="
+            mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} -e "SELECT COUNT(*) as problems FROM problems; SELECT COUNT(*) as testcases FROM testcases;"
+            
+            echo ""
+            echo "✅ Migration Complete!"
