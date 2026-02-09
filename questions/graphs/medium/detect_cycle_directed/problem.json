@@ -1,0 +1,19 @@
+{
+  "id": "detect_cycle_directed",
+  "title": "Detect Cycle in Directed Graph",
+  "category": "graphs",
+  "difficulty": "medium",
+  "statement": "Given a directed graph with V vertices and E edges, determine if there exists a cycle in the graph.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing a directed edge from U to V.",
+  "output_format": "Print 'YES' if a cycle exists, otherwise 'NO'.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "cycle-detection", "dfs", "topological-sort"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

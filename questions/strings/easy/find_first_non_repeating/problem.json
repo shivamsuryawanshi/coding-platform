@@ -1,0 +1,19 @@
+{
+  "id": "find_first_non_repeating",
+  "title": "First Non-Repeating Character",
+  "category": "strings",
+  "difficulty": "easy",
+  "statement": "Given a string S, find the first character that does not repeat anywhere in the string. If all characters repeat, return -1.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the first non-repeating character, or -1 if none exists.",
+  "constraints": "1 <= |S| <= 10^5\nS contains only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "hashing", "frequency"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,13 @@
+7
+PUSH -2
+PUSH 0
+PUSH -3
+GETMIN
+POP
+TOP
+GETMIN
+
+
+
+
+

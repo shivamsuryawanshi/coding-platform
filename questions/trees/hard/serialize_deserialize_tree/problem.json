@@ -1,0 +1,19 @@
+{
+  "id": "serialize_deserialize_tree",
+  "title": "Serialize and Deserialize Binary Tree",
+  "category": "trees",
+  "difficulty": "hard",
+  "statement": "Design an algorithm to serialize a binary tree to a string and deserialize the string back to the original tree structure. The output should prove round-trip correctness by printing the tree's level order traversal after deserialization.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print the level order traversal of deserialized tree (same format as input, with -1 for nulls).",
+  "constraints": "0 <= actual nodes <= 10^4\n-1000 <= Node.val <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "serialization", "bfs", "design"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

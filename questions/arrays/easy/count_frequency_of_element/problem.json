@@ -1,0 +1,19 @@
+{
+  "id": "count_frequency_of_element",
+  "title": "Count Frequency of Element",
+  "category": "arrays",
+  "difficulty": "easy",
+  "statement": "Given an array of N integers and a target value K, count how many times K appears in the array.",
+  "input_format": "First line contains two integers N and K.\nSecond line contains N space-separated integers.",
+  "output_format": "Print a single integer - the frequency of K in the array.",
+  "constraints": "1 <= N <= 10^5\n-10^9 <= arr[i], K <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "basic", "counting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

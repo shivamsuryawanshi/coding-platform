@@ -1,0 +1,19 @@
+{
+  "id": "reverse_array_elements",
+  "title": "Reverse Array Elements",
+  "category": "arrays",
+  "difficulty": "easy",
+  "statement": "Given an array of N integers, reverse the array and print the reversed array.",
+  "input_format": "First line contains N, the number of elements.\nSecond line contains N space-separated integers.",
+  "output_format": "Print N space-separated integers representing the reversed array.",
+  "constraints": "1 <= N <= 10^5\n-10^9 <= arr[i] <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "basic", "reverse"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

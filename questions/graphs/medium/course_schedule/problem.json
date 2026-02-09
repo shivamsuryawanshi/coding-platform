@@ -1,0 +1,19 @@
+{
+  "id": "course_schedule",
+  "title": "Course Schedule",
+  "category": "graphs",
+  "difficulty": "medium",
+  "statement": "There are N courses labeled 0 to N-1. Some courses have prerequisites. Given the number of courses and a list of prerequisite pairs, determine if it is possible to finish all courses.",
+  "input_format": "First line contains N (number of courses) and P (number of prerequisites).\nNext P lines contain two integers A and B meaning course A requires course B as prerequisite.",
+  "output_format": "Print 'YES' if all courses can be finished, otherwise 'NO'.",
+  "constraints": "1 <= N <= 2000\n0 <= P <= 5000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "topological-sort", "cycle-detection"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "min_cost_climbing_stairs",
+  "title": "Minimum Cost Climbing Stairs",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "Given an array where cost[i] is the cost of step i, you can start from step 0 or 1. Each step you can climb 1 or 2 steps. Find the minimum cost to reach the top (past the last step).",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers (costs).",
+  "output_format": "Print the minimum cost.",
+  "constraints": "2 <= N <= 1000\n0 <= cost[i] <= 999",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "array"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

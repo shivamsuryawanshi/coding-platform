@@ -1,0 +1,19 @@
+{
+  "id": "reverse_string",
+  "title": "Reverse a String",
+  "category": "strings",
+  "difficulty": "easy",
+  "statement": "Given a string S, reverse the string and print the result.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the reversed string.",
+  "constraints": "1 <= |S| <= 10^5\nS contains only lowercase and uppercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "basic", "reverse"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

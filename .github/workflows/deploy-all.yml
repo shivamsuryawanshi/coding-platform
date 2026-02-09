@@ -1,23 +1,84 @@
-# Deploy All Services
-# Manual trigger to deploy all services at once
-# Use this for initial setup or full redeployment
+# Deploy All Services to EC2
+# Includes: Database migration, Judge, Backend, Frontend
+# Triggered manually or on push to main
 
 name: Deploy All Services
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'judge/**'
+      - 'scripts/**'
+
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USER: ${{ secrets.EC2_USER }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_USER: ${{ secrets.DB_USER }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  AWS_REGION: eu-north-1
 
 jobs:
-  deploy-judges:
+  # Step 1: Setup EC2 and run database migration
+  setup-and-migrate:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        judge:
-          - { name: judge-python, port: 5000, dir: judge-python }
-          - { name: judge-cpp, port: 5002, dir: judge-cpp }
-          - { name: judge-java, port: 5003, dir: judge-java }
-          - { name: judge-js, port: 5004, dir: judge-js }
-    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup EC2 environment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Install Docker if not present
+            if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y docker.io mysql-client python3-pip
+              sudo systemctl enable docker
+              sudo systemctl start docker
+              sudo usermod -aG docker ubuntu
+            fi
+            
+            # Create app directory
+            mkdir -p ~/codenexus
+            echo "EC2 setup complete"
+
+      - name: Copy migration scripts to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "scripts/*"
+          target: "~/codenexus/"
+
+      - name: Run database migration
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/codenexus/scripts
+            
+            # Run schema
+            mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} < schema.sql || echo "Schema may already exist"
+            
+            echo "Database migration complete"
+
+  # Step 2: Deploy Judge Service
+  deploy-judge:
+    runs-on: ubuntu-latest
+    needs: setup-and-migrate
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,15 +86,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build Judge Docker image
         run: |
-          cd ${{ matrix.judge.dir }}
-          docker build -t ${{ matrix.judge.name }}:latest .
+          cd judge
+          docker build -t codenexus-judge:latest .
 
       - name: Save Docker image
         run: |
-          docker save ${{ matrix.judge.name }}:latest -o ${{ matrix.judge.name }}-image.tar
-          chmod 644 ${{ matrix.judge.name }}-image.tar
+          docker save codenexus-judge:latest -o judge-image.tar
+          chmod 644 judge-image.tar
 
       - name: Copy image to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -41,33 +102,32 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "${{ matrix.judge.name }}-image.tar"
+          source: "judge-image.tar"
           target: "/tmp"
 
-      - name: Deploy to EC2
+      - name: Deploy Judge to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker load -i /tmp/${{ matrix.judge.name }}-image.tar
-            docker stop ${{ matrix.judge.name }} 2>/dev/null || true
-            docker rm ${{ matrix.judge.name }} 2>/dev/null || true
+            docker load -i /tmp/judge-image.tar
+            docker stop judge 2>/dev/null || true
+            docker rm judge 2>/dev/null || true
             docker run -d \
-              --name ${{ matrix.judge.name }} \
+              --name judge \
               --restart unless-stopped \
-              --memory=512m \
-              --cpus=0.5 \
-              -p ${{ matrix.judge.port }}:${{ matrix.judge.port }} \
-              ${{ matrix.judge.name }}:latest
-            rm /tmp/${{ matrix.judge.name }}-image.tar
-            echo "${{ matrix.judge.name }} deployed on port ${{ matrix.judge.port }}"
+              --memory=1g \
+              -p 5000:5000 \
+              codenexus-judge:latest
+            rm /tmp/judge-image.tar
+            echo "Judge deployed on port 5000"
 
+  # Step 3: Deploy Backend Service
   deploy-backend:
     runs-on: ubuntu-latest
-    needs: deploy-judges
-    
+    needs: deploy-judge
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -87,14 +147,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build Backend Docker image
         run: |
           cd backend
-          docker build -t coding-platform-backend:latest .
+          docker build -t codenexus-backend:latest .
 
       - name: Save Docker image
         run: |
-          docker save coding-platform-backend:latest -o backend-image.tar
+          docker save codenexus-backend:latest -o backend-image.tar
           chmod 644 backend-image.tar
 
       - name: Copy image to EC2
@@ -106,7 +166,7 @@ jobs:
           source: "backend-image.tar"
           target: "/tmp"
 
-      - name: Deploy to EC2
+      - name: Deploy Backend to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -120,33 +180,52 @@ jobs:
               --name backend \
               --restart unless-stopped \
               --memory=512m \
-              --cpus=0.5 \
               -p 8080:8080 \
-              --add-host=host.docker.internal:host-gateway \
-              -e JUDGE_HOST=host.docker.internal \
-              coding-platform-backend:latest
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_PORT=3306 \
+              -e DB_NAME=${{ secrets.DB_NAME }} \
+              -e DB_USER=${{ secrets.DB_USER }} \
+              -e DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+              -e AWS_REGION=eu-north-1 \
+              -e S3_BUCKET=${{ secrets.S3_BUCKET }} \
+              -e JUDGE_HOST=172.17.0.1 \
+              -e JUDGE_PORT=5000 \
+              codenexus-backend:latest
             rm /tmp/backend-image.tar
             echo "Backend deployed on port 8080"
 
+  # Step 4: Deploy Frontend Service
   deploy-frontend:
     runs-on: ubuntu-latest
     needs: deploy-backend
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies and build
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build Frontend Docker image
         run: |
           cd frontend
-          docker build -t coding-platform-frontend:latest .
+          docker build -t codenexus-frontend:latest .
 
       - name: Save Docker image
         run: |
-          docker save coding-platform-frontend:latest -o frontend-image.tar
+          docker save codenexus-frontend:latest -o frontend-image.tar
           chmod 644 frontend-image.tar
 
       - name: Copy image to EC2
@@ -158,7 +237,7 @@ jobs:
           source: "frontend-image.tar"
           target: "/tmp"
 
-      - name: Deploy to EC2
+      - name: Deploy Frontend to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -172,18 +251,16 @@ jobs:
               --name frontend \
               --restart unless-stopped \
               --memory=256m \
-              --cpus=0.5 \
               -p 80:80 \
-              --add-host=backend:host-gateway \
-              coding-platform-frontend:latest
+              codenexus-frontend:latest
             rm /tmp/frontend-image.tar
             docker image prune -f
             echo "Frontend deployed on port 80"
 
-  verify-deployment:
+  # Step 5: Verify deployment
+  verify:
     runs-on: ubuntu-latest
     needs: deploy-frontend
-    
     steps:
       - name: Verify all services
         uses: appleboy/ssh-action@v1.0.3
@@ -192,20 +269,21 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "=== All Running Containers ==="
+            echo "=========================================="
+            echo "       DEPLOYMENT VERIFICATION"
+            echo "=========================================="
+            echo ""
+            echo "Running Containers:"
             docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-            
             echo ""
-            echo "=== Health Checks ==="
-            echo "Python Judge:" && curl -s http://localhost:5000/health | head -1
-            echo "C++ Judge:" && curl -s http://localhost:5002/health | head -1
-            echo "Java Judge:" && curl -s http://localhost:5003/health | head -1
-            echo "JS Judge:" && curl -s http://localhost:5004/health | head -1
-            echo "Backend:" && curl -s http://localhost:8080/health | head -1
-            echo "Frontend:" && curl -s -o /dev/null -w "%{http_code}" http://localhost:80
-            
+            echo "Health Checks:"
+            echo "  Judge:    $(curl -s http://localhost:5000/health | grep -o '"status":"[^"]*"' || echo 'FAILED')"
+            echo "  Backend:  $(curl -s http://localhost:8080/api/health | grep -o '"status":"[^"]*"' || echo 'FAILED')"
+            echo "  Frontend: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:80)"
             echo ""
-            echo "=== Deployment Complete! ==="
-            echo "Frontend: http://${{ secrets.EC2_HOST }}"
-            echo "Backend API: http://${{ secrets.EC2_HOST }}:8080"
-
+            echo "=========================================="
+            echo "  🎉 DEPLOYMENT COMPLETE!"
+            echo "=========================================="
+            echo "  Frontend: http://${{ secrets.EC2_HOST }}"
+            echo "  Backend:  http://${{ secrets.EC2_HOST }}:8080/api"
+            echo "=========================================="

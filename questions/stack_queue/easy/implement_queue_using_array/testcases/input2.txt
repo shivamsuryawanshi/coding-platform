@@ -1,0 +1,10 @@
+4
+DEQUEUE
+ENQUEUE 5
+FRONT
+ISEMPTY
+
+
+
+
+

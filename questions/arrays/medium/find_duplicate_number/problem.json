@@ -1,0 +1,19 @@
+{
+  "id": "find_duplicate_number",
+  "title": "Find the Duplicate Number",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given an array of N+1 integers where each integer is in the range [1, N] inclusive, there is exactly one duplicate number. Find and return the duplicate number without modifying the array and using only constant extra space.",
+  "input_format": "First line contains N.\nSecond line contains N+1 space-separated integers.",
+  "output_format": "Print the duplicate number.",
+  "constraints": "1 <= N <= 10^5\n1 <= arr[i] <= N",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "cycle-detection", "floyd"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

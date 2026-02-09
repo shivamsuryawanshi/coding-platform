@@ -1,0 +1,19 @@
+{
+  "id": "reverse_linked_list",
+  "title": "Reverse a Linked List",
+  "category": "linked_list",
+  "difficulty": "easy",
+  "statement": "Given the head of a singly linked list represented as space-separated integers, reverse the list and return the reversed list.",
+  "input_format": "First line contains N, the number of nodes.\nSecond line contains N space-separated integers representing node values.",
+  "output_format": "Print N space-separated integers representing the reversed list.",
+  "constraints": "0 <= N <= 5000\n-10^4 <= Node.val <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "iterative", "recursion"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

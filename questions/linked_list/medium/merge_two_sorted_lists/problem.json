@@ -1,0 +1,19 @@
+{
+  "id": "merge_two_sorted_lists",
+  "title": "Merge Two Sorted Linked Lists",
+  "category": "linked_list",
+  "difficulty": "medium",
+  "statement": "Given two sorted linked lists, merge them into one sorted list by splicing together the nodes of the first two lists.",
+  "input_format": "First line contains N1 and N2.\nSecond line contains N1 space-separated integers (first sorted list).\nThird line contains N2 space-separated integers (second sorted list).",
+  "output_format": "Print the merged sorted list as space-separated integers.",
+  "constraints": "0 <= N1, N2 <= 50\n-100 <= Node.val <= 100\nBoth lists are sorted in non-decreasing order.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "merge", "two-pointers"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

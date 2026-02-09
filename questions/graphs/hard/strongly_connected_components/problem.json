@@ -1,0 +1,19 @@
+{
+  "id": "strongly_connected_components",
+  "title": "Strongly Connected Components",
+  "category": "graphs",
+  "difficulty": "hard",
+  "statement": "Given a directed graph with V vertices and E edges, find the number of Strongly Connected Components (SCCs). An SCC is a maximal set of vertices such that there is a path from every vertex to every other vertex in the set.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing a directed edge from U to V.",
+  "output_format": "Print the number of strongly connected components.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)",
+  "time_limit": 2,
+  "memory_limit": 256,
+  "tags": ["graph", "scc", "kosaraju", "tarjan"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

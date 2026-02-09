@@ -1,0 +1,19 @@
+{
+  "id": "flatten_binary_tree_to_list",
+  "title": "Flatten Binary Tree to Linked List",
+  "category": "trees",
+  "difficulty": "hard",
+  "statement": "Given the root of a binary tree, flatten the tree into a linked list: The linked list should use the same TreeNode class where the right child pointer points to next node, and the left child is always null. The linked list should be in preorder traversal order.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print the flattened list values in order, space-separated.",
+  "constraints": "0 <= actual nodes <= 2000\n-100 <= Node.val <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "linked-list", "preorder", "in-place"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

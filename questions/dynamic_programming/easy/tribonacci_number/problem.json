@@ -1,0 +1,19 @@
+{
+  "id": "tribonacci_number",
+  "title": "Tribonacci Number",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "The Tribonacci sequence is: T(0) = 0, T(1) = 1, T(2) = 1, T(n) = T(n-1) + T(n-2) + T(n-3). Given N, find T(N).",
+  "input_format": "A single integer N.",
+  "output_format": "Print T(N).",
+  "constraints": "0 <= N <= 37",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "recursion"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

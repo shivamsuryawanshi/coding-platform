@@ -1,0 +1,19 @@
+{
+  "id": "reverse_nodes_in_k_group",
+  "title": "Reverse Nodes in K-Group",
+  "category": "linked_list",
+  "difficulty": "hard",
+  "statement": "Given a linked list, reverse the nodes in groups of K at a time. If the remaining nodes are fewer than K, leave them as is. You may not alter node values, only the node positions.",
+  "input_format": "First line contains N and K.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the modified list as space-separated integers.",
+  "constraints": "1 <= K <= N <= 5000\n0 <= Node.val <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "recursion", "reverse"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

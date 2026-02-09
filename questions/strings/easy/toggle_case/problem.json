@@ -1,0 +1,19 @@
+{
+  "id": "toggle_case",
+  "title": "Toggle Character Case",
+  "category": "strings",
+  "difficulty": "easy",
+  "statement": "Given a string S containing English letters, convert all uppercase letters to lowercase and all lowercase letters to uppercase.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the string with toggled case.",
+  "constraints": "1 <= |S| <= 10^5\nS contains only English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "basic", "case-conversion"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

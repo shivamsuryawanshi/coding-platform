@@ -1,0 +1,19 @@
+{
+  "id": "sliding_window_maximum",
+  "title": "Sliding Window Maximum",
+  "category": "stack_queue",
+  "difficulty": "medium",
+  "statement": "Given an array and a sliding window of size K moving from left to right, find the maximum value in each window position.",
+  "input_format": "First line contains N and K.\nSecond line contains N space-separated integers.",
+  "output_format": "Print space-separated maximum values for each window position.",
+  "constraints": "1 <= K <= N <= 10^5\n-10^4 <= arr[i] <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["queue", "deque", "sliding-window", "monotonic-queue"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

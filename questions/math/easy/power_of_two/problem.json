@@ -1,0 +1,19 @@
+{
+  "id": "power_of_two",
+  "title": "Check Power of Two",
+  "category": "math",
+  "difficulty": "easy",
+  "statement": "Given an integer N, determine if it is a power of two (1, 2, 4, 8, 16, ...).",
+  "input_format": "A single integer N.",
+  "output_format": "Print 'YES' if N is a power of two, otherwise 'NO'.",
+  "constraints": "-2^31 <= N <= 2^31 - 1",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "bit_manipulation"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

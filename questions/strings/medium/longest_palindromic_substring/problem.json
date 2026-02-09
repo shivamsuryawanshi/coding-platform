@@ -1,0 +1,19 @@
+{
+  "id": "longest_palindromic_substring",
+  "title": "Longest Palindromic Substring",
+  "category": "strings",
+  "difficulty": "medium",
+  "statement": "Given a string S, find and return the longest substring which is a palindrome. If there are multiple answers of same length, return the one that appears first.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the longest palindromic substring.",
+  "constraints": "1 <= |S| <= 1000\nS contains only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "dynamic-programming", "expand-around-center"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

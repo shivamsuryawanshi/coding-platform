@@ -1,0 +1,19 @@
+{
+  "id": "check_symmetric_tree",
+  "title": "Check Symmetric Tree",
+  "category": "trees",
+  "difficulty": "easy",
+  "statement": "Given a binary tree, check whether it is a mirror of itself (symmetric around its center).",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print 'YES' if symmetric, otherwise 'NO'.",
+  "constraints": "0 <= actual nodes <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "recursion", "bfs"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

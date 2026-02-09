@@ -1,0 +1,19 @@
+{
+  "id": "binary_tree_max_path_sum",
+  "title": "Binary Tree Maximum Path Sum",
+  "category": "trees",
+  "difficulty": "hard",
+  "statement": "Given a binary tree, find the maximum path sum. A path is any sequence of nodes from some starting node to any node in the tree along parent-child connections. The path must contain at least one node and does not need to go through the root.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print the maximum path sum.",
+  "constraints": "1 <= actual nodes <= 3 * 10^4\n-1000 <= Node.val <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "recursion", "dynamic-programming"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

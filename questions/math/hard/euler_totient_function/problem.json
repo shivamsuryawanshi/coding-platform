@@ -1,0 +1,19 @@
+{
+  "id": "euler_totient_function",
+  "title": "Euler's Totient Function",
+  "category": "math",
+  "difficulty": "hard",
+  "statement": "Given a positive integer N, compute Euler's totient function φ(N), which counts integers from 1 to N that are coprime with N.",
+  "input_format": "A single integer N.",
+  "output_format": "Print φ(N).",
+  "constraints": "1 <= N <= 10^12",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "number_theory", "totient"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

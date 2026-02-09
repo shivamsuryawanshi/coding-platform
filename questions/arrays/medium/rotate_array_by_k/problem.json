@@ -1,0 +1,19 @@
+{
+  "id": "rotate_array_by_k",
+  "title": "Rotate Array by K Positions",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given an array of N integers, rotate the array to the right by K positions. Elements that overflow from the right should wrap around to the left.",
+  "input_format": "First line contains two integers N and K.\nSecond line contains N space-separated integers.",
+  "output_format": "Print N space-separated integers representing the rotated array.",
+  "constraints": "1 <= N <= 10^5\n0 <= K <= 10^9\n-10^9 <= arr[i] <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "rotation", "reversal"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

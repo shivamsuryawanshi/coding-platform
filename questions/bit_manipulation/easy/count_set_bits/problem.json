@@ -1,0 +1,19 @@
+{
+  "id": "count_set_bits",
+  "title": "Count Set Bits",
+  "category": "bit_manipulation",
+  "difficulty": "easy",
+  "statement": "Given a non-negative integer N, count the number of 1s (set bits) in its binary representation. This is also known as the Hamming weight or population count.",
+  "input_format": "A single integer N.",
+  "output_format": "Print the count of set bits.",
+  "constraints": "0 <= N <= 2^31 - 1",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["bit_manipulation", "counting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

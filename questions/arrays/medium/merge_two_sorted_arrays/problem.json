@@ -1,0 +1,19 @@
+{
+  "id": "merge_two_sorted_arrays",
+  "title": "Merge Two Sorted Arrays",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given two sorted arrays of sizes N and M, merge them into a single sorted array without using extra space for the result array. The first N elements should be in the first array and the remaining M elements in the second array, both in sorted order.",
+  "input_format": "First line contains two integers N and M.\nSecond line contains N space-separated integers (first array, sorted).\nThird line contains M space-separated integers (second array, sorted).",
+  "output_format": "Print two lines:\nFirst line: N space-separated integers of the modified first array.\nSecond line: M space-separated integers of the modified second array.",
+  "constraints": "1 <= N, M <= 10^4\n0 <= arr[i] <= 10^6",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "two-pointers", "sorting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

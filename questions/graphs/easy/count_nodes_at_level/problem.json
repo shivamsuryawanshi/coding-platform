@@ -1,0 +1,19 @@
+{
+  "id": "count_nodes_at_level",
+  "title": "Count Nodes at Given Level",
+  "category": "graphs",
+  "difficulty": "easy",
+  "statement": "Given an undirected graph with V vertices and E edges, count the number of nodes at a specific level L from the source node 0. The source node is at level 0.",
+  "input_format": "First line contains V, E, and L.\nNext E lines contain two integers U and V representing an edge.",
+  "output_format": "Print the count of nodes at level L.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)/2\n0 <= L < V",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "bfs", "level"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

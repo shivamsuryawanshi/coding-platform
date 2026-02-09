@@ -1,0 +1,19 @@
+{
+  "id": "check_prime",
+  "title": "Check Prime Number",
+  "category": "math",
+  "difficulty": "easy",
+  "statement": "Given a positive integer N, determine if it is a prime number. A prime is greater than 1 and has no positive divisors other than 1 and itself.",
+  "input_format": "A single integer N.",
+  "output_format": "Print 'YES' if N is prime, otherwise 'NO'.",
+  "constraints": "1 <= N <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "prime"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "maximum_xor_of_two_numbers",
+  "title": "Maximum XOR of Two Numbers in an Array",
+  "category": "bit_manipulation",
+  "difficulty": "hard",
+  "statement": "Given an integer array, find the maximum result of nums[i] XOR nums[j] where 0 <= i <= j < n. The optimal solution should use a Trie-based approach for O(N * 32) complexity.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the maximum XOR value.",
+  "constraints": "1 <= N <= 2 * 10^5\n0 <= nums[i] <= 2^31 - 1",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["bit_manipulation", "trie", "xor"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

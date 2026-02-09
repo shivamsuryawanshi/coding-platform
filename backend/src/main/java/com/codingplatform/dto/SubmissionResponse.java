@@ -1,90 +1,119 @@
 package com.codingplatform.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.time.Instant;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 /**
- * Response DTO for submission results.
- * This is what the client receives after submitting code.
+ * DTO for submission response (verdict).
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubmissionResponse {
 
+    private Long submissionId;
+    private String problemId;
+    private String language;
     private String verdict;
-    private Integer passed;
-    private Integer total;
-    private Map<String, Object> failedTest;
+    private int passed;
+    private int total;
+    private FailedTestDTO failedTest;
     private String error;
-    private String timestamp;
+    private LocalDateTime timestamp;
 
     public SubmissionResponse() {
-        this.timestamp = Instant.now().toString();
+        this.timestamp = LocalDateTime.now();
     }
 
-    // Static factory methods for common responses
-    public static SubmissionResponse fromJudgeResponse(JudgeResponse judgeResponse) {
+    /**
+     * Create success response.
+     */
+    public static SubmissionResponse success(Long submissionId, String problemId, String language,
+                                              String verdict, int passed, int total) {
         SubmissionResponse response = new SubmissionResponse();
-        response.setVerdict(judgeResponse.getVerdict());
-        response.setPassed(judgeResponse.getPassed());
-        response.setTotal(judgeResponse.getTotal());
-        response.setFailedTest(judgeResponse.getFailedTest());
+        response.submissionId = submissionId;
+        response.problemId = problemId;
+        response.language = language;
+        response.verdict = verdict;
+        response.passed = passed;
+        response.total = total;
         return response;
     }
 
+    /**
+     * Create error response.
+     */
     public static SubmissionResponse error(String errorMessage) {
         SubmissionResponse response = new SubmissionResponse();
-        response.setVerdict("Error");
-        response.setError(errorMessage);
+        response.verdict = "Error";
+        response.error = errorMessage;
         return response;
     }
 
-    public String getVerdict() {
-        return verdict;
+    /**
+     * Create response from judge result.
+     */
+    public static SubmissionResponse fromJudgeResult(Long submissionId, String problemId, 
+                                                      String language, JudgeResultDTO judgeResult) {
+        SubmissionResponse response = new SubmissionResponse();
+        response.submissionId = submissionId;
+        response.problemId = problemId;
+        response.language = language;
+        response.verdict = judgeResult.getVerdict();
+        response.passed = judgeResult.getPassed();
+        response.total = judgeResult.getTotal();
+        response.failedTest = judgeResult.getFailedTest();
+        response.error = judgeResult.getError();
+        return response;
     }
 
-    public void setVerdict(String verdict) {
-        this.verdict = verdict;
-    }
+    // Getters and Setters
+    public Long getSubmissionId() { return submissionId; }
+    public void setSubmissionId(Long submissionId) { this.submissionId = submissionId; }
 
-    public Integer getPassed() {
-        return passed;
-    }
+    public String getProblemId() { return problemId; }
+    public void setProblemId(String problemId) { this.problemId = problemId; }
 
-    public void setPassed(Integer passed) {
-        this.passed = passed;
-    }
+    public String getLanguage() { return language; }
+    public void setLanguage(String language) { this.language = language; }
 
-    public Integer getTotal() {
-        return total;
-    }
+    public String getVerdict() { return verdict; }
+    public void setVerdict(String verdict) { this.verdict = verdict; }
 
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
+    public int getPassed() { return passed; }
+    public void setPassed(int passed) { this.passed = passed; }
 
-    public Map<String, Object> getFailedTest() {
-        return failedTest;
-    }
+    public int getTotal() { return total; }
+    public void setTotal(int total) { this.total = total; }
 
-    public void setFailedTest(Map<String, Object> failedTest) {
-        this.failedTest = failedTest;
-    }
+    public FailedTestDTO getFailedTest() { return failedTest; }
+    public void setFailedTest(FailedTestDTO failedTest) { this.failedTest = failedTest; }
 
-    public String getError() {
-        return error;
-    }
+    public String getError() { return error; }
+    public void setError(String error) { this.error = error; }
 
-    public void setError(String error) {
-        this.error = error;
-    }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
+    /**
+     * DTO for failed test details.
+     */
+    public static class FailedTestDTO {
+        private int testId;
+        private String input;
+        private String expected;
+        private String actual;
+        private String error;
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+        public int getTestId() { return testId; }
+        public void setTestId(int testId) { this.testId = testId; }
+
+        public String getInput() { return input; }
+        public void setInput(String input) { this.input = input; }
+
+        public String getExpected() { return expected; }
+        public void setExpected(String expected) { this.expected = expected; }
+
+        public String getActual() { return actual; }
+        public void setActual(String actual) { this.actual = actual; }
+
+        public String getError() { return error; }
+        public void setError(String error) { this.error = error; }
     }
 }
-

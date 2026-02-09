@@ -1,0 +1,19 @@
+{
+  "id": "lemonade_change",
+  "title": "Lemonade Change",
+  "category": "greedy",
+  "difficulty": "easy",
+  "statement": "Customers queue to buy lemonade for $5. Each customer pays with $5, $10, or $20 bill. You start with no change. Determine if you can provide correct change to every customer.",
+  "input_format": "First line contains N.\nSecond line contains N integers (5, 10, or 20).",
+  "output_format": "Print 'YES' if you can provide change to all, otherwise 'NO'.",
+  "constraints": "1 <= N <= 10^5\nbills[i] is 5, 10, or 20",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "simulation"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "decode_string",
+  "title": "Decode Encoded String",
+  "category": "strings",
+  "difficulty": "medium",
+  "statement": "Given an encoded string following the pattern k[encoded_string], where the encoded_string inside the square brackets is repeated exactly k times, decode and return the original string. The encoding may be nested.",
+  "input_format": "A single line containing the encoded string.",
+  "output_format": "Print the decoded string.",
+  "constraints": "1 <= |S| <= 100\n1 <= k <= 300\nInput is always valid.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "stack", "recursion"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

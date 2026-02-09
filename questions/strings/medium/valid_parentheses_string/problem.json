@@ -1,0 +1,19 @@
+{
+  "id": "valid_parentheses_string",
+  "title": "Valid Parentheses String",
+  "category": "strings",
+  "difficulty": "medium",
+  "statement": "Given a string S containing only '(', ')' and '*', determine if it can represent a valid parentheses sequence. The '*' can be treated as '(' or ')' or an empty string.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print 'YES' if the string can be valid, otherwise print 'NO'.",
+  "constraints": "1 <= |S| <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "greedy", "dynamic-programming"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

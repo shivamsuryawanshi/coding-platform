@@ -1,0 +1,19 @@
+{
+  "id": "shortest_path_unweighted",
+  "title": "Shortest Path in Unweighted Graph",
+  "category": "graphs",
+  "difficulty": "medium",
+  "statement": "Given an unweighted undirected graph with V vertices and E edges, find the shortest path (number of edges) from source vertex S to destination vertex D.",
+  "input_format": "First line contains V, E, S, and D.\nNext E lines contain two integers U and V representing an edge.",
+  "output_format": "Print the shortest path length. Print -1 if no path exists.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)/2\n0 <= S, D < V",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "bfs", "shortest-path"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "implement_stack_using_array",
+  "title": "Implement Stack Using Array",
+  "category": "stack_queue",
+  "difficulty": "easy",
+  "statement": "Implement a stack that supports push, pop, top, and isEmpty operations. Given a sequence of operations, execute them and print the results.",
+  "input_format": "First line contains N (number of operations).\nNext N lines contain operations: PUSH x, POP, TOP, or ISEMPTY.",
+  "output_format": "For POP: print the popped element or -1 if empty.\nFor TOP: print the top element or -1 if empty.\nFor ISEMPTY: print 'true' or 'false'.",
+  "constraints": "1 <= N <= 10^4\n-10^9 <= x <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["stack", "implementation", "basic"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

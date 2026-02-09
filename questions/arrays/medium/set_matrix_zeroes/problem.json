@@ -1,0 +1,19 @@
+{
+  "id": "set_matrix_zeroes",
+  "title": "Set Matrix Zeroes",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given an M x N matrix, if any element is 0, set its entire row and column to 0. Do this in-place without using extra space proportional to matrix size.",
+  "input_format": "First line contains M and N.\nNext M lines each contain N space-separated integers.",
+  "output_format": "Print M lines, each containing N space-separated integers representing the modified matrix.",
+  "constraints": "1 <= M, N <= 200\n-10^9 <= matrix[i][j] <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "matrix", "in-place"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

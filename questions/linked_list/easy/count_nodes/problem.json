@@ -1,0 +1,19 @@
+{
+  "id": "count_nodes",
+  "title": "Count Nodes in Linked List",
+  "category": "linked_list",
+  "difficulty": "easy",
+  "statement": "Given a singly linked list represented as space-separated integers, count and return the total number of nodes in the list.",
+  "input_format": "A single line containing space-separated integers representing node values. Empty line for empty list.",
+  "output_format": "Print the count of nodes.",
+  "constraints": "0 <= N <= 10^5\n-10^4 <= Node.val <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "basic", "traversal"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

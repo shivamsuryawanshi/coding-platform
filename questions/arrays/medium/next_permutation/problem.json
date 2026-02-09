@@ -1,0 +1,19 @@
+{
+  "id": "next_permutation",
+  "title": "Next Permutation",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given an array of N integers representing a permutation of numbers, rearrange the array to form the next lexicographically greater permutation. If no such permutation exists (array is in descending order), rearrange to the smallest permutation (ascending order).",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print N space-separated integers representing the next permutation.",
+  "constraints": "1 <= N <= 10^5\n1 <= arr[i] <= N",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "permutation", "two-pointers"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

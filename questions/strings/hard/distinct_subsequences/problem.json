@@ -1,0 +1,19 @@
+{
+  "id": "distinct_subsequences",
+  "title": "Count Distinct Subsequences",
+  "category": "strings",
+  "difficulty": "hard",
+  "statement": "Given two strings S and T, count the number of distinct subsequences of S which equal T. A subsequence is a sequence derived from string by deleting some or no characters without changing the order of remaining characters.",
+  "input_format": "First line contains string S.\nSecond line contains string T.",
+  "output_format": "Print the count of distinct subsequences. Since the answer can be large, print it modulo 10^9+7.",
+  "constraints": "1 <= |S|, |T| <= 1000\nStrings contain only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "dynamic-programming"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "string_length_without_spaces",
+  "title": "String Length Without Spaces",
+  "category": "strings",
+  "difficulty": "easy",
+  "statement": "Given a string S that may contain spaces, calculate the length of the string excluding all space characters.",
+  "input_format": "A single line containing string S (may contain spaces).",
+  "output_format": "Print the length of S after removing all spaces.",
+  "constraints": "1 <= |S| <= 10^5",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "basic", "counting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

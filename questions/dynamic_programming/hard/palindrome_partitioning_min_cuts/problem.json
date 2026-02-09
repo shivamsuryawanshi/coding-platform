@@ -1,0 +1,19 @@
+{
+  "id": "palindrome_partitioning_min_cuts",
+  "title": "Palindrome Partitioning - Minimum Cuts",
+  "category": "dynamic_programming",
+  "difficulty": "hard",
+  "statement": "Given a string S, find the minimum number of cuts needed to partition S such that every substring is a palindrome.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the minimum number of cuts.",
+  "constraints": "1 <= |S| <= 2000\nS contains only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "palindrome", "partition"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,18 +1,44 @@
 server:
   port: 8080
 
+spring:
+  application:
+    name: coding-platform-backend
+  
+  # Database Configuration (RDS MySQL)
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:coding_platform}?useSSL=true&requireSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+# AWS Configuration
+aws:
+  region: ${AWS_REGION:eu-north-1}
+  s3:
+    bucket: ${S3_BUCKET:coding-platform-testcases}
+
 # Judge service configuration
-# JUDGE_HOST environment variable controls where to find judges:
-# - For Docker on EC2: host.docker.internal (access host from container)
-# - For local dev: localhost or EC2 IP
 judge:
   service:
-    host: ${JUDGE_HOST:host.docker.internal}
-    ports:
-      python: 5000
-      cpp: 5002
-      java: 5003
-      js: 5004
+    host: ${JUDGE_HOST:localhost}
+    port: ${JUDGE_PORT:5000}
     timeout:
       connect: 5000
       read: 30000
@@ -22,8 +48,5 @@ logging:
   level:
     com.codingplatform: INFO
     org.springframework.web: INFO
-
-spring:
-  application:
-    name: coding-platform-backend
-
+    org.hibernate.SQL: WARN
+    software.amazon.awssdk: WARN

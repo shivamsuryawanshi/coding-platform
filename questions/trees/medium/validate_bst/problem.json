@@ -1,0 +1,19 @@
+{
+  "id": "validate_bst",
+  "title": "Validate Binary Search Tree",
+  "category": "trees",
+  "difficulty": "medium",
+  "statement": "Given a binary tree, determine if it is a valid binary search tree (BST). A valid BST has: left subtree values less than node, right subtree values greater than node, and both subtrees are also valid BSTs.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print 'YES' if valid BST, otherwise 'NO'.",
+  "constraints": "0 <= actual nodes <= 10^4\n-2^31 <= Node.val <= 2^31 - 1",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "bst", "validation", "inorder"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

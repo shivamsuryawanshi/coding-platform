@@ -1,0 +1,19 @@
+{
+  "id": "fibonacci_number",
+  "title": "Fibonacci Number",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "The Fibonacci sequence is defined as: F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2). Given N, find F(N).",
+  "input_format": "A single integer N.",
+  "output_format": "Print F(N).",
+  "constraints": "0 <= N <= 30",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "recursion", "memoization"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

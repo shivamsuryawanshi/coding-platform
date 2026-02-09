@@ -1,0 +1,19 @@
+{
+  "id": "evaluate_postfix_expression",
+  "title": "Evaluate Postfix Expression",
+  "category": "stack_queue",
+  "difficulty": "medium",
+  "statement": "Given a postfix expression (Reverse Polish Notation), evaluate it and return the result. Valid operators are +, -, *, /. Division should truncate toward zero.",
+  "input_format": "A single line containing space-separated tokens (operands and operators).",
+  "output_format": "Print the result of the expression.",
+  "constraints": "1 <= tokens <= 10^4\nOperands are integers in range [-200, 200].\nThe expression is always valid.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["stack", "expression", "evaluation"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

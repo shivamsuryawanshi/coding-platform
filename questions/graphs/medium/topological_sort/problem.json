@@ -1,0 +1,19 @@
+{
+  "id": "topological_sort",
+  "title": "Topological Sort",
+  "category": "graphs",
+  "difficulty": "medium",
+  "statement": "Given a Directed Acyclic Graph (DAG) with V vertices and E edges, find any valid topological ordering of the vertices.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing a directed edge from U to V.",
+  "output_format": "Print space-separated vertices in topological order.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "topological-sort", "dfs", "kahn"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

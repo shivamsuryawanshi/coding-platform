@@ -1,0 +1,19 @@
+{
+  "id": "bfs_of_graph",
+  "title": "BFS Traversal of Graph",
+  "category": "graphs",
+  "difficulty": "easy",
+  "statement": "Given a connected undirected graph with V vertices and E edges, perform a Breadth First Search (BFS) starting from vertex 0. Print the BFS traversal order.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing an edge between U and V.",
+  "output_format": "Print space-separated vertices in BFS order.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)/2\n0 <= U, V < V",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "bfs", "traversal"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

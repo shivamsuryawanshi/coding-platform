@@ -1,0 +1,19 @@
+{
+  "id": "add_two_numbers_list",
+  "title": "Add Two Numbers as Linked Lists",
+  "category": "linked_list",
+  "difficulty": "medium",
+  "statement": "Given two non-empty linked lists representing two non-negative integers where digits are stored in reverse order, add them and return the sum as a linked list.",
+  "input_format": "First line contains N1 and N2.\nSecond line contains N1 space-separated digits (first number, reversed).\nThird line contains N2 space-separated digits (second number, reversed).",
+  "output_format": "Print the result as space-separated digits (reversed representation of sum).",
+  "constraints": "1 <= N1, N2 <= 100\n0 <= digit <= 9\nNumbers do not contain leading zeros except 0 itself.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "math", "simulation"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

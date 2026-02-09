@@ -1,0 +1,19 @@
+{
+  "id": "max_sum_non_adjacent",
+  "title": "Maximum Sum of Non-Adjacent Elements",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "Given an array of N positive integers, find the maximum sum of elements such that no two selected elements are adjacent.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the maximum sum.",
+  "constraints": "1 <= N <= 10^5\n1 <= arr[i] <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "array"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

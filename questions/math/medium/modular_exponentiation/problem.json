@@ -1,0 +1,19 @@
+{
+  "id": "modular_exponentiation",
+  "title": "Modular Exponentiation",
+  "category": "math",
+  "difficulty": "medium",
+  "statement": "Given three integers A, B, and M, compute (A^B) mod M using efficient modular exponentiation.",
+  "input_format": "A single line with three space-separated integers A, B, M.",
+  "output_format": "Print (A^B) mod M.",
+  "constraints": "1 <= A, M <= 10^9\n0 <= B <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "modular_arithmetic", "exponentiation"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

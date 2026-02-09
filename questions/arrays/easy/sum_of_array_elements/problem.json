@@ -1,0 +1,19 @@
+{
+  "id": "sum_of_array_elements",
+  "title": "Sum of Array Elements",
+  "category": "arrays",
+  "difficulty": "easy",
+  "statement": "Given an array of N integers, calculate and return the sum of all elements in the array.",
+  "input_format": "First line contains N, the number of elements.\nSecond line contains N space-separated integers.",
+  "output_format": "Print a single integer - the sum of all elements.",
+  "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "basic", "sum"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

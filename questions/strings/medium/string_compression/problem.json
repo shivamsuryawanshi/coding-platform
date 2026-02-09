@@ -1,0 +1,19 @@
+{
+  "id": "string_compression",
+  "title": "String Compression",
+  "category": "strings",
+  "difficulty": "medium",
+  "statement": "Given a string S of characters, compress it using the following rules: For each group of consecutive identical characters, replace them with the character followed by the count. If the count is 1, omit the number.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the compressed string.",
+  "constraints": "1 <= |S| <= 10^5\nS contains only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "two-pointers"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

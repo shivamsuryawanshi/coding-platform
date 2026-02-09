@@ -1,0 +1,19 @@
+{
+  "id": "maximum_units_on_truck",
+  "title": "Maximum Units on a Truck",
+  "category": "greedy",
+  "difficulty": "easy",
+  "statement": "You have N box types, each with count and units per box. Given truck capacity (number of boxes), find maximum total units that can be loaded.",
+  "input_format": "First line contains N and truck capacity.\nNext N lines each have boxCount and unitsPerBox.",
+  "output_format": "Print the maximum total units.",
+  "constraints": "1 <= N <= 1000\n1 <= truckSize <= 10^6\n1 <= boxCount, unitsPerBox <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "sorting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "reverse_string_using_stack",
+  "title": "Reverse String Using Stack",
+  "category": "stack_queue",
+  "difficulty": "easy",
+  "statement": "Given a string S, reverse it using a stack data structure and return the reversed string.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the reversed string.",
+  "constraints": "1 <= |S| <= 10^5",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["stack", "string", "basic"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

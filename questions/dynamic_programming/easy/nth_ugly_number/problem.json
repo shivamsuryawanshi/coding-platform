@@ -1,0 +1,19 @@
+{
+  "id": "nth_ugly_number",
+  "title": "Nth Ugly Number",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "An ugly number is a positive number whose prime factors are limited to 2, 3, and 5. By convention, 1 is the first ugly number. Given N, find the Nth ugly number.",
+  "input_format": "A single integer N.",
+  "output_format": "Print the Nth ugly number.",
+  "constraints": "1 <= N <= 1690",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "math", "heap"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

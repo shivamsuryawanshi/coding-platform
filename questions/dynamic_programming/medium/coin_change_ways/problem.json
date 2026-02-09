@@ -1,0 +1,19 @@
+{
+  "id": "coin_change_ways",
+  "title": "Coin Change - Count Ways",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "Given an array of coin denominations and a target amount, find the number of combinations that make up that amount. You can use each coin an unlimited number of times.",
+  "input_format": "First line contains N and AMOUNT.\nSecond line contains N space-separated coin denominations.",
+  "output_format": "Print the number of combinations.",
+  "constraints": "1 <= N <= 300\n1 <= coins[i] <= 5000\n0 <= AMOUNT <= 5000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "coin-change", "counting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

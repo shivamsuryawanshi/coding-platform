@@ -1,0 +1,19 @@
+{
+  "id": "merge_k_sorted_lists",
+  "title": "Merge K Sorted Linked Lists",
+  "category": "linked_list",
+  "difficulty": "hard",
+  "statement": "Given K sorted linked lists, merge all of them into one sorted linked list and return it.",
+  "input_format": "First line contains K (number of lists).\nFor each list: first line has size N, second line has N space-separated integers.",
+  "output_format": "Print the merged sorted list as space-separated integers.",
+  "constraints": "0 <= K <= 10^4\n0 <= N <= 500\n-10^4 <= Node.val <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "heap", "divide-and-conquer", "merge"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

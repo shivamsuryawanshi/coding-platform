@@ -1,0 +1,19 @@
+{
+  "id": "longest_substring_no_repeat",
+  "title": "Longest Substring Without Repeating Characters",
+  "category": "strings",
+  "difficulty": "medium",
+  "statement": "Given a string S, find the length of the longest substring that contains no repeating characters.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print the length of the longest substring without repeating characters.",
+  "constraints": "1 <= |S| <= 10^5\nS contains lowercase English letters, digits, and symbols.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "sliding-window", "hashing"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "detect_cycle",
+  "title": "Detect Cycle in Linked List",
+  "category": "linked_list",
+  "difficulty": "medium",
+  "statement": "Given a linked list, determine if it contains a cycle. The input provides the list and the position (0-indexed) where the tail connects to form a cycle. Position -1 means no cycle.",
+  "input_format": "First line contains N and POS (position where cycle connects, -1 if no cycle).\nSecond line contains N space-separated integers representing node values.",
+  "output_format": "Print 'YES' if there is a cycle, otherwise 'NO'.",
+  "constraints": "0 <= N <= 10^4\n-10^5 <= Node.val <= 10^5\nPOS is -1 or a valid index in the list.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "cycle-detection", "floyd"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

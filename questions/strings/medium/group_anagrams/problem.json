@@ -1,0 +1,19 @@
+{
+  "id": "group_anagrams",
+  "title": "Group Anagrams Together",
+  "category": "strings",
+  "difficulty": "medium",
+  "statement": "Given N strings, group anagrams together. Two strings are anagrams if they contain the same characters with the same frequencies. Print each group on a separate line with strings sorted alphabetically within the group.",
+  "input_format": "First line contains N.\nNext N lines each contain a string.",
+  "output_format": "Print each group of anagrams on a separate line, with strings in each group sorted alphabetically and space-separated. Groups should be printed in lexicographical order of their first element.",
+  "constraints": "1 <= N <= 10^4\n1 <= |S| <= 100\nStrings contain only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "hashing", "sorting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

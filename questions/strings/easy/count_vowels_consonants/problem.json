@@ -1,0 +1,19 @@
+{
+  "id": "count_vowels_consonants",
+  "title": "Count Vowels and Consonants",
+  "category": "strings",
+  "difficulty": "easy",
+  "statement": "Given a string S containing only lowercase letters, count the number of vowels (a, e, i, o, u) and consonants.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print two space-separated integers: count of vowels and count of consonants.",
+  "constraints": "1 <= |S| <= 10^5\nS contains only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "counting", "basic"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

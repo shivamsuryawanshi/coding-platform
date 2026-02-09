@@ -1,37 +1,35 @@
 package com.codingplatform.service;
 
-import com.codingplatform.config.JudgeServiceConfig;
-import com.codingplatform.dto.JudgeResponse;
+import com.codingplatform.config.JudgeConfig;
+import com.codingplatform.dto.JudgeResultDTO;
 import com.codingplatform.dto.SubmissionRequest;
+import com.codingplatform.dto.SubmissionResponse;
+import com.codingplatform.dto.TestcaseDTO;
+import com.codingplatform.entity.Problem;
+import com.codingplatform.entity.Submission;
+import com.codingplatform.entity.Submission.Language;
+import com.codingplatform.entity.Testcase;
+import com.codingplatform.repository.ProblemRepository;
+import com.codingplatform.repository.SubmissionRepository;
+import com.codingplatform.repository.TestcaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Service responsible for communicating with Multi-Language Judge Services.
- * 
- * This service acts as a router between the backend and isolated
- * code execution environments. It:
- * 1. Routes submissions to the correct judge based on language
- * 2. Forwards user code to the appropriate Judge Service
- * 3. Handles communication errors gracefully
- * 4. Returns the verdict to the caller
- * 
- * IMPORTANT: This service NEVER executes code itself.
- * 
- * Language → Port Mapping:
- * - Python → 5000
- * - C++    → 5002
- * - Java   → 5003
- * - JS     → 5004
+ * Service for code submission and judging.
+ * Coordinates between backend, S3, and Judge service.
  */
 @Service
 public class JudgeService {
@@ -39,161 +37,163 @@ public class JudgeService {
     private static final Logger logger = LoggerFactory.getLogger(JudgeService.class);
 
     private final RestTemplate restTemplate;
-    private final JudgeServiceConfig judgeConfig;
+    private final JudgeConfig judgeConfig;
+    private final ProblemRepository problemRepository;
+    private final TestcaseRepository testcaseRepository;
+    private final SubmissionRepository submissionRepository;
+    private final S3Service s3Service;
 
-    public JudgeService(RestTemplate restTemplate, JudgeServiceConfig judgeConfig) {
+    public JudgeService(RestTemplate restTemplate,
+                        JudgeConfig judgeConfig,
+                        ProblemRepository problemRepository,
+                        TestcaseRepository testcaseRepository,
+                        SubmissionRepository submissionRepository,
+                        S3Service s3Service) {
         this.restTemplate = restTemplate;
         this.judgeConfig = judgeConfig;
+        this.problemRepository = problemRepository;
+        this.testcaseRepository = testcaseRepository;
+        this.submissionRepository = submissionRepository;
+        this.s3Service = s3Service;
     }
 
     /**
-     * Submit code to the appropriate Judge Service based on language.
-     *
-     * @param request The submission request containing language and user code
-     * @return JudgeResponse containing the verdict
-     * @throws JudgeServiceException if communication with judge fails
+     * Submit code for evaluation.
      */
-    public JudgeResponse submitCode(SubmissionRequest request) {
-        String language = request.getLanguage().toLowerCase();
-        logger.info("Submitting {} code to judge service", language);
-        logger.debug("Code length: {} characters", request.getCode().length());
+    @Transactional
+    public SubmissionResponse submitCode(SubmissionRequest request) {
+        String problemId = request.getProblemId();
+        String languageStr = request.getLanguage().toLowerCase();
+        String code = request.getCode();
 
-        // Get the correct judge URL based on language
-        String judgeUrl = judgeConfig.getJudgeEndpoint(language);
-        logger.debug("Judge URL for {}: {}", language, judgeUrl);
+        logger.info("Received submission for problem: {} in {}", problemId, languageStr);
 
-        // Prepare the request body
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("code", request.getCode());
+        // Validate problem exists
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new JudgeServiceException("Problem not found: " + problemId));
 
-        // Set headers
+        // Parse language
+        Language language;
+        try {
+            language = Language.valueOf(languageStr.equals("js") ? "javascript" : languageStr);
+        } catch (IllegalArgumentException e) {
+            throw new JudgeServiceException("Unsupported language: " + languageStr);
+        }
+
+        // Create submission record
+        Submission submission = new Submission(problem, language, code);
+        submission = submissionRepository.save(submission);
+
+        try {
+            // Fetch testcases from S3
+            List<Testcase> testcases = testcaseRepository.findByProblemIdOrdered(problemId);
+            if (testcases.isEmpty()) {
+                throw new JudgeServiceException("No testcases found for problem: " + problemId);
+            }
+
+            List<TestcaseDTO> testcaseDTOs = testcases.stream()
+                    .map(tc -> {
+                        String input = s3Service.getFileContent(tc.getS3InputKey());
+                        String expectedOutput = s3Service.getFileContent(tc.getS3OutputKey());
+                        return new TestcaseDTO(tc.getTestcaseNumber(), input, expectedOutput);
+                    })
+                    .collect(Collectors.toList());
+
+            // Send to judge service
+            JudgeResultDTO judgeResult = callJudgeService(languageStr, code, testcaseDTOs);
+
+            // Update submission with result
+            submission.setVerdict(judgeResult.getVerdict());
+            submission.setPassedTests(judgeResult.getPassed());
+            submission.setTotalTests(judgeResult.getTotal());
+            if (judgeResult.getError() != null) {
+                submission.setErrorMessage(judgeResult.getError());
+            }
+            submissionRepository.save(submission);
+
+            return SubmissionResponse.fromJudgeResult(
+                    submission.getId(), problemId, languageStr, judgeResult);
+
+        } catch (S3Service.S3ServiceException e) {
+            logger.error("S3 error during submission: {}", e.getMessage());
+            submission.setVerdict("Error");
+            submission.setErrorMessage("Failed to fetch testcases");
+            submissionRepository.save(submission);
+            return SubmissionResponse.error("Failed to fetch testcases from storage");
+            
+        } catch (JudgeServiceException e) {
+            logger.error("Judge error: {}", e.getMessage());
+            submission.setVerdict("Error");
+            submission.setErrorMessage(e.getMessage());
+            submissionRepository.save(submission);
+            return SubmissionResponse.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Call the judge service with code and testcases.
+     */
+    private JudgeResultDTO callJudgeService(String language, String code, List<TestcaseDTO> testcases) {
+        String judgeUrl = judgeConfig.getJudgeBaseUrl() + "/judge";
+        logger.debug("Calling judge service: {}", judgeUrl);
+
+        // Prepare request body
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("language", language);
+        requestBody.put("code", code);
+        requestBody.put("testcases", testcases);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
         try {
-            // Make the HTTP call to the Judge Service
-            ResponseEntity<JudgeResponse> response = restTemplate.exchange(
+            ResponseEntity<JudgeResultDTO> response = restTemplate.exchange(
                     judgeUrl,
                     HttpMethod.POST,
                     entity,
-                    JudgeResponse.class
+                    JudgeResultDTO.class
             );
 
-            JudgeResponse judgeResponse = response.getBody();
-            
-            if (judgeResponse == null) {
-                throw new JudgeServiceException("Received null response from " + language + " judge service");
+            JudgeResultDTO result = response.getBody();
+            if (result == null) {
+                throw new JudgeServiceException("Empty response from judge service");
             }
 
-            logger.info("Received verdict from {} judge: {}", language, judgeResponse.getVerdict());
-            return judgeResponse;
+            logger.info("Judge verdict: {} ({}/{})", 
+                    result.getVerdict(), result.getPassed(), result.getTotal());
+            return result;
 
         } catch (ResourceAccessException e) {
-            // Judge service is not reachable
-            logger.error("Cannot connect to {} judge service: {}", language, e.getMessage());
-            throw new JudgeServiceException(
-                    language.toUpperCase() + " judge service is unavailable. Please ensure the judge is running.",
-                    e
-            );
-            
-        } catch (HttpClientErrorException e) {
-            // 4xx errors from judge
-            logger.error("Client error from {} judge service: {} - {}", language, e.getStatusCode(), e.getResponseBodyAsString());
-            throw new JudgeServiceException(
-                    "Invalid request to " + language + " judge service: " + e.getResponseBodyAsString(),
-                    e
-            );
-            
-        } catch (HttpServerErrorException e) {
-            // 5xx errors from judge
-            logger.error("Server error from {} judge service: {} - {}", language, e.getStatusCode(), e.getResponseBodyAsString());
-            throw new JudgeServiceException(
-                    language.toUpperCase() + " judge service encountered an error",
-                    e
-            );
-        } catch (IllegalArgumentException e) {
-            // Unsupported language
-            logger.error("Unsupported language: {}", language);
-            throw new JudgeServiceException("Unsupported language: " + language, e);
+            logger.error("Judge service unreachable: {}", e.getMessage());
+            throw new JudgeServiceException("Judge service is unavailable");
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            logger.error("Judge service error: {} - {}", e.getStatusCode(), e.getResponseBodyAsString());
+            throw new JudgeServiceException("Judge service error: " + e.getMessage());
         }
     }
 
     /**
-     * Get the problem statement from the Judge Service.
-     *
-     * @return Map containing problem details
-     * @throws JudgeServiceException if communication with judge fails
+     * Check if judge service is healthy.
      */
-    @SuppressWarnings("rawtypes")
-    public Map getProblem() {
-        logger.info("Fetching problem from judge service");
-        
-        String problemUrl = judgeConfig.getProblemEndpoint();
-        
+    public boolean isJudgeHealthy() {
         try {
-            ResponseEntity<Map> response = restTemplate.getForEntity(problemUrl, Map.class);
-            return response.getBody();
-        } catch (ResourceAccessException e) {
-            logger.error("Cannot connect to judge service: {}", e.getMessage());
-            throw new JudgeServiceException(
-                    "Judge service is unavailable. Please ensure the judge is running.",
-                    e
-            );
-        }
-    }
-
-    /**
-     * Check if all Judge Services are healthy.
-     *
-     * @return Map of language to health status
-     */
-    public Map<String, Boolean> getAllJudgesHealth() {
-        Map<String, Boolean> healthStatus = new HashMap<>();
-        
-        for (String language : judgeConfig.getSupportedLanguages()) {
-            healthStatus.put(language, isJudgeHealthy(language));
-        }
-        
-        return healthStatus;
-    }
-
-    /**
-     * Check if a specific Judge Service is healthy.
-     *
-     * @param language The language judge to check
-     * @return true if the judge service is reachable and healthy
-     */
-    public boolean isJudgeHealthy(String language) {
-        try {
-            String healthUrl = judgeConfig.getHealthEndpoint(language);
+            String healthUrl = judgeConfig.getJudgeBaseUrl() + "/health";
             ResponseEntity<Map> response = restTemplate.getForEntity(healthUrl, Map.class);
             return response.getStatusCode() == HttpStatus.OK;
         } catch (Exception e) {
-            logger.warn("{} judge health check failed: {}", language, e.getMessage());
+            logger.warn("Judge health check failed: {}", e.getMessage());
             return false;
         }
     }
 
     /**
-     * Check if at least one judge is healthy.
-     */
-    public boolean isAnyJudgeHealthy() {
-        return getAllJudgesHealth().values().stream().anyMatch(Boolean::booleanValue);
-    }
-
-    /**
-     * Custom exception for Judge Service communication errors.
+     * Custom exception for judge service errors.
      */
     public static class JudgeServiceException extends RuntimeException {
         public JudgeServiceException(String message) {
             super(message);
         }
-
-        public JudgeServiceException(String message, Throwable cause) {
-            super(message, cause);
-        }
     }
 }
-

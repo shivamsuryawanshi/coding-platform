@@ -1,0 +1,19 @@
+{
+  "id": "activity_selection",
+  "title": "Activity Selection",
+  "category": "greedy",
+  "difficulty": "medium",
+  "statement": "Given N activities with start and end times, select the maximum number of activities that a single person can perform (cannot overlap).",
+  "input_format": "First line contains N.\nNext N lines each have start and end time.",
+  "output_format": "Print the maximum number of activities.",
+  "constraints": "1 <= N <= 10^5\n0 <= start < end <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "sorting", "interval"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

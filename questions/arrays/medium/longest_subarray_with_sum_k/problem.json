@@ -1,0 +1,19 @@
+{
+  "id": "longest_subarray_with_sum_k",
+  "title": "Longest Subarray with Sum K",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given an array of N integers and a target sum K, find the length of the longest contiguous subarray that sums to K. If no such subarray exists, return 0.",
+  "input_format": "First line contains two integers N and K.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the length of the longest subarray with sum K.",
+  "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6\n-10^9 <= K <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "prefix-sum", "hashmap"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

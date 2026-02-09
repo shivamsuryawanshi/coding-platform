@@ -1,0 +1,19 @@
+{
+  "id": "number_of_islands",
+  "title": "Number of Islands",
+  "category": "graphs",
+  "difficulty": "medium",
+  "statement": "Given a 2D grid of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.",
+  "input_format": "First line contains M and N (grid dimensions).\nNext M lines contain N characters each ('1' or '0').",
+  "output_format": "Print the number of islands.",
+  "constraints": "1 <= M, N <= 300",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "dfs", "bfs", "grid", "flood-fill"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

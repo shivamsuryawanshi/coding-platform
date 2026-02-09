@@ -1,0 +1,19 @@
+{
+  "id": "dijkstra_shortest_path",
+  "title": "Dijkstra's Shortest Path",
+  "category": "graphs",
+  "difficulty": "hard",
+  "statement": "Given a weighted directed graph with V vertices and E edges, find the shortest path from source vertex S to all other vertices using Dijkstra's algorithm. If a vertex is unreachable, its distance is -1.",
+  "input_format": "First line contains V, E, and S.\nNext E lines contain three integers U, V, and W representing an edge from U to V with weight W.",
+  "output_format": "Print V space-separated integers representing shortest distances from S to vertices 0, 1, ..., V-1.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)\n0 <= S < V\n0 <= W <= 10^6",
+  "time_limit": 2,
+  "memory_limit": 256,
+  "tags": ["graph", "dijkstra", "shortest-path", "priority-queue"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

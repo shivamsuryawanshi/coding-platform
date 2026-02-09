@@ -1,0 +1,19 @@
+{
+  "id": "construct_tree_from_traversals",
+  "title": "Construct Tree from Preorder and Inorder",
+  "category": "trees",
+  "difficulty": "medium",
+  "statement": "Given preorder and inorder traversals of a binary tree, construct and return the tree. Print its level order traversal.",
+  "input_format": "First line contains N.\nSecond line contains N integers (preorder traversal).\nThird line contains N integers (inorder traversal).",
+  "output_format": "Print level order traversal of constructed tree, space-separated.",
+  "constraints": "1 <= N <= 3000\nAll values are unique.\n-3000 <= Node.val <= 3000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "construction", "recursion", "divide-and-conquer"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

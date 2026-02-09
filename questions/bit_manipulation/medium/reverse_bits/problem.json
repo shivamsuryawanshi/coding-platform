@@ -1,0 +1,19 @@
+{
+  "id": "reverse_bits",
+  "title": "Reverse Bits",
+  "category": "bit_manipulation",
+  "difficulty": "medium",
+  "statement": "Reverse the bits of a given 32-bit unsigned integer. For example, if the input binary representation is 00000010100101000001111010011100, the output should be 00111001011110000010100101000000.",
+  "input_format": "A single 32-bit unsigned integer N.",
+  "output_format": "Print the result after reversing all 32 bits.",
+  "constraints": "0 <= N <= 2^32 - 1",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["bit_manipulation", "reverse"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

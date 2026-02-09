@@ -1,0 +1,19 @@
+{
+  "id": "best_time_to_buy_sell_stock",
+  "title": "Best Time to Buy and Sell Stock",
+  "category": "greedy",
+  "difficulty": "easy",
+  "statement": "Given an array of stock prices where prices[i] is the price on day i, find the maximum profit from one transaction (buy one day, sell another day after). If no profit possible, return 0.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated prices.",
+  "output_format": "Print the maximum profit.",
+  "constraints": "1 <= N <= 10^5\n0 <= prices[i] <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "array"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

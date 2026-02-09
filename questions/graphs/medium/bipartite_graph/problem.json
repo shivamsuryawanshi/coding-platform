@@ -1,0 +1,19 @@
+{
+  "id": "bipartite_graph",
+  "title": "Check If Graph is Bipartite",
+  "category": "graphs",
+  "difficulty": "medium",
+  "statement": "Given an undirected graph with V vertices and E edges, determine if it is bipartite. A graph is bipartite if vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to one in the other set.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing an edge.",
+  "output_format": "Print 'YES' if bipartite, otherwise 'NO'.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)/2",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "bipartite", "bfs", "coloring"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

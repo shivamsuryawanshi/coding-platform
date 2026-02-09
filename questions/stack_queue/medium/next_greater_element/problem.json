@@ -1,0 +1,19 @@
+{
+  "id": "next_greater_element",
+  "title": "Next Greater Element",
+  "category": "stack_queue",
+  "difficulty": "medium",
+  "statement": "Given an array of N integers, for each element find the next greater element to its right. If no greater element exists, use -1.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print N space-separated integers representing the next greater element for each position.",
+  "constraints": "1 <= N <= 10^5\n-10^9 <= arr[i] <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["stack", "monotonic-stack", "arrays"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

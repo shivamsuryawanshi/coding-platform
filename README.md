@@ -1,106 +1,286 @@
-# CodeNexus - Online Coding Platform
+# CodeNexus - Production-Ready Online Coding Platform
 
-A complete coding platform like LeetCode/CodeChef with multi-language support, built with modern technologies and automated CI/CD.
+A complete LeetCode-style coding platform built with **Java Spring Boot**, **React**, and **AWS** (RDS + S3).
 
 ## 🎯 Features
 
-- **Multi-language Support**: Python, C++, Java, JavaScript
-- **Real-time Code Execution**: Isolated Docker containers for each language
-- **Auto-deployment**: GitHub Actions CI/CD pipelines
-- **Scalable Architecture**: Microservices-based design
+- ✅ **Multi-language Support**: Python, C++, Java, JavaScript
+- ✅ **100+ DSA Problems**: Arrays, Trees, Graphs, DP, and more
+- ✅ **Real-time Code Execution**: Isolated execution environment
+- ✅ **AWS Integration**: RDS (MySQL) + S3 for production
+- ✅ **IAM Role Authentication**: No AWS keys in code
+- ✅ **Clean Architecture**: Controller → Service → Repository pattern
+- ✅ **CI/CD Ready**: Docker containers for all services
+
+---
 
 ## 🏗️ Architecture
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  Frontend   │────▶│   Backend   │────▶│   Judges    │
-│   (React)   │     │  (Spring)   │     │  (Docker)   │
-│   Port:80   │     │  Port:8080  │     │ 5000-5004   │
-└─────────────┘     └─────────────┘     └─────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                         AWS Cloud                                │
+│                                                                  │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐  │
+│  │ Frontend │───▶│ Backend  │───▶│  Judge   │    │   RDS    │  │
+│  │ (React)  │    │ (Spring) │    │ (Python) │    │ (MySQL)  │  │
+│  │ Port: 80 │    │Port: 8080│    │Port: 5000│    │Port: 3306│  │
+│  └──────────┘    └────┬─────┘    └────┬─────┘    └──────────┘  │
+│                       │               │                         │
+│                       │               │         ┌──────────┐   │
+│                       └───────────────┼────────▶│    S3    │   │
+│                                       └────────▶│ Testcases│   │
+│                                                 └──────────┘   │
+└─────────────────────────────────────────────────────────────────┘
 ```
+
+### Data Flow
+
+1. **Frontend** → Displays problems, accepts code submissions
+2. **Backend** → Fetches problems from RDS, fetches testcases from S3
+3. **Backend** → Sends code + testcases to Judge
+4. **Judge** → Executes code, returns verdict
+5. **Backend** → Returns result to Frontend
+
+---
 
 ## 📁 Project Structure
 
 ```
 coding-platform/
-├── frontend/          # React + Vite + TypeScript
-├── backend/           # Spring Boot REST API
-├── judge-python/      # Python 3.10 judge (Port: 5000)
-├── judge-cpp/         # GCC C++17 judge (Port: 5002)
-├── judge-java/        # JDK 17 judge (Port: 5003)
-├── judge-js/          # Node.js LTS judge (Port: 5004)
-└── .github/workflows/ # CI/CD pipelines
+├── backend/                 # Java Spring Boot API
+│   ├── src/main/java/
+│   │   └── com/codingplatform/
+│   │       ├── controller/  # REST endpoints
+│   │       ├── service/     # Business logic
+│   │       ├── repository/  # JPA repositories
+│   │       ├── entity/      # Database entities
+│   │       ├── dto/         # Data transfer objects
+│   │       ├── config/      # AWS, Judge configs
+│   │       └── exception/   # Error handlers
+│   ├── Dockerfile
+│   └── pom.xml
+│
+├── frontend/               # React + Tailwind CSS
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Page components
+│   │   ├── api.ts          # API client
+│   │   └── types.ts        # TypeScript types
+│   ├── Dockerfile
+│   └── package.json
+│
+├── judge/                  # Unified Python Judge
+│   ├── judge.py            # Multi-language executor
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── scripts/                # Data migration tools
+│   ├── schema.sql          # MySQL schema
+│   ├── migrate_questions.py
+│   └── requirements.txt
+│
+└── questions/              # Problem bank (100+ problems)
+    ├── arrays/
+    ├── trees/
+    ├── graphs/
+    └── ...
 ```
 
-## 🚀 Quick Start
+---
 
-### Local Development
+## 🔧 AWS Configuration
+
+### Resources Required
+
+| Resource | Name | Details |
+|----------|------|---------|
+| **EC2** | coding-platform-ec2 | t3.medium, Ubuntu 22.04 |
+| **RDS** | coding-platform-db | MySQL 8.0, db.t3.micro |
+| **S3** | coding-platform-testcases | Private bucket |
+| **IAM Role** | coding-platform-ec2-role | S3ReadOnlyAccess |
+
+### S3 Structure
+
+```
+coding-platform-testcases/
+└── problems/
+    └── <problem_id>/
+        ├── input1.txt
+        ├── output1.txt
+        ├── input2.txt
+        └── output2.txt
+```
+
+### Security
+
+- ✅ **IAM Role** for S3 access (no access keys)
+- ✅ **Environment variables** for database credentials
+- ✅ **No secrets in code**
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Java 17+
+- Node.js 18+
+- Python 3.10+
+- Docker (optional)
+- MySQL 8 (local) or AWS RDS
+
+### 1. Database Setup
 
 ```bash
-# Start judges (choose one)
-cd judge-python && python judge.py
+# Connect to MySQL and create database
+mysql -u root -p
+CREATE DATABASE coding_platform CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-# Start backend
-cd backend && mvn spring-boot:run
-
-# Start frontend
-cd frontend && npm install && npm run dev
-
-# Open http://localhost:3000
+# Run schema
+mysql -u root -p coding_platform < scripts/schema.sql
 ```
 
-### Docker Deployment
+### 2. Data Migration
 
 ```bash
-# Build and run all services
-docker build -t judge-python ./judge-python
-docker run -d -p 5000:5000 judge-python
+cd scripts
 
-docker build -t backend ./backend
-docker run -d -p 8080:8080 backend
+# Install dependencies
+pip install -r requirements.txt
 
-docker build -t frontend ./frontend
-docker run -d -p 80:80 frontend
+# Set environment variables
+export DB_HOST=localhost
+export DB_USER=root
+export DB_PASSWORD=your_password
+export DB_NAME=coding_platform
+export S3_BUCKET=coding-platform-testcases
+export AWS_REGION=eu-north-1
+
+# Run migration (uploads to S3 + inserts to RDS)
+python migrate_questions.py
 ```
 
-## 🔄 CI/CD
+### 3. Start Backend
 
-Each service has its own GitHub Actions workflow:
+```bash
+cd backend
 
-| Service | Trigger Path | Deployment |
-|---------|--------------|------------|
-| Frontend | `frontend/**` | Auto-deploy to EC2:80 |
-| Backend | `backend/**` | Auto-deploy to EC2:8080 |
-| Python Judge | `judge-python/**` | Auto-deploy to EC2:5000 |
-| C++ Judge | `judge-cpp/**` | Auto-deploy to EC2:5002 |
-| Java Judge | `judge-java/**` | Auto-deploy to EC2:5003 |
-| JS Judge | `judge-js/**` | Auto-deploy to EC2:5004 |
+# Set environment variables
+export DB_HOST=localhost
+export DB_USER=root
+export DB_PASSWORD=your_password
+export DB_NAME=coding_platform
+export AWS_REGION=eu-north-1
+export S3_BUCKET=coding-platform-testcases
+export JUDGE_HOST=localhost
+export JUDGE_PORT=5000
 
-### Required GitHub Secrets
+# Run
+mvn spring-boot:run
+```
 
-| Secret | Description |
-|--------|-------------|
-| `EC2_HOST` | EC2 public IP address |
-| `EC2_USER` | SSH username (ubuntu) |
-| `EC2_SSH_KEY` | SSH private key content |
+### 4. Start Judge
 
-## 📝 API Endpoints
+```bash
+cd judge
 
-### Backend API
+# Install dependencies
+pip install -r requirements.txt
+
+# Run
+python judge.py
+```
+
+### 5. Start Frontend
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Run (proxies API to localhost:8080)
+npm run dev
+```
+
+### 6. Open Browser
+
+Visit: http://localhost:3000
+
+---
+
+## 🐳 Docker Deployment
+
+### Build Images
+
+```bash
+# Backend
+docker build -t codenexus-backend ./backend
+
+# Judge
+docker build -t codenexus-judge ./judge
+
+# Frontend
+docker build -t codenexus-frontend ./frontend
+```
+
+### Run Containers
+
+```bash
+# Judge
+docker run -d --name judge \
+  -p 5000:5000 \
+  codenexus-judge
+
+# Backend
+docker run -d --name backend \
+  -p 8080:8080 \
+  -e DB_HOST=host.docker.internal \
+  -e DB_USER=admin \
+  -e DB_PASSWORD=your_password \
+  -e DB_NAME=coding_platform \
+  -e AWS_REGION=eu-north-1 \
+  -e S3_BUCKET=coding-platform-testcases \
+  -e JUDGE_HOST=host.docker.internal \
+  -e JUDGE_PORT=5000 \
+  codenexus-backend
+
+# Frontend
+docker run -d --name frontend \
+  -p 80:80 \
+  codenexus-frontend
+```
+
+---
+
+## 📝 API Reference
+
+### Problems
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/health` | Health check |
-| GET | `/problem` | Get problem statement |
-| GET | `/languages` | Get supported languages |
-| POST | `/submit` | Submit code for judging |
+| GET | `/api/problems` | List all problems |
+| GET | `/api/problems?category=arrays` | Filter by category |
+| GET | `/api/problems?difficulty=easy` | Filter by difficulty |
+| GET | `/api/problems/{id}` | Get problem details |
+| GET | `/api/categories` | List all categories |
+| GET | `/api/stats` | Get problem statistics |
+
+### Submissions
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/submit` | Submit code |
+| GET | `/api/languages` | Supported languages |
+| GET | `/api/health` | Health check |
 
 ### Submit Request
 
 ```json
 {
+  "problemId": "sum_of_array_elements",
   "language": "python",
-  "code": "a, b = map(int, input().split())\nprint(a + b)"
+  "code": "n = int(input())\narr = list(map(int, input().split()))\nprint(sum(arr))"
 }
 ```
 
@@ -108,75 +288,67 @@ Each service has its own GitHub Actions workflow:
 
 ```json
 {
+  "submissionId": 123,
+  "problemId": "sum_of_array_elements",
+  "language": "python",
   "verdict": "Accepted",
-  "passed": 3,
-  "total": 3,
-  "failedTest": null
+  "passed": 5,
+  "total": 5,
+  "failedTest": null,
+  "timestamp": "2024-01-15T10:30:00"
 }
 ```
 
-## 🐳 Docker Images
-
-| Service | Base Image | Size |
-|---------|------------|------|
-| Frontend | nginx:alpine | ~25MB |
-| Backend | eclipse-temurin:17-jre | ~250MB |
-| Python Judge | python:3.10-slim | ~150MB |
-| C++ Judge | gcc:latest | ~1.2GB |
-| Java Judge | eclipse-temurin:17-jdk | ~400MB |
-| JS Judge | node:lts-slim | ~200MB |
-
-## ⚙️ Configuration
-
-### Backend (application.yml)
-
-```yaml
-judge:
-  service:
-    host: ${JUDGE_HOST:host.docker.internal}
-    ports:
-      python: 5000
-      cpp: 5002
-      java: 5003
-      js: 5004
-```
-
-### Resource Limits (per container)
-
-- Memory: 512MB (judges), 256MB (frontend)
-- CPU: 0.5 cores
-- Execution timeout: 5 seconds
-
-## 🔐 Security
-
-- Judges run in isolated containers
-- Temp files cleaned after execution
-- Hard execution timeouts
-- No network access from user code
-- Resource limits enforced
+---
 
 ## 📊 Verdicts
 
 | Verdict | Description |
 |---------|-------------|
 | ✅ Accepted | All test cases passed |
-| ❌ Wrong Answer | Output doesn't match expected |
-| ⚠️ Runtime Error | Code crashed during execution |
-| ⏱️ Time Limit Exceeded | Execution took too long |
-| 🔨 Compilation Error | Code failed to compile (C++/Java) |
+| ❌ Wrong Answer | Output mismatch |
+| ⚠️ Runtime Error | Code crashed |
+| ⏱️ Time Limit Exceeded | Execution timeout |
+| 🔨 Compilation Error | Code failed to compile |
 
-## 📖 Documentation
+---
 
-- [Deployment Guide](DEPLOYMENT.md)
-- [Testing Guide](docs/testing.md)
+## 🛡️ Security Best Practices
+
+1. **IAM Role for S3** - EC2 uses instance role, no access keys
+2. **Environment Variables** - Database credentials via ENV
+3. **No Hardcoded Secrets** - All secrets externalized
+4. **Isolated Execution** - Judge runs code in temp directories
+5. **Resource Limits** - Timeout and memory limits enforced
+
+---
+
+## 📈 Production Checklist
+
+- [ ] Set up RDS with proper security groups
+- [ ] Create S3 bucket with IAM policy
+- [ ] Attach IAM role to EC2
+- [ ] Run data migration script
+- [ ] Configure environment variables
+- [ ] Set up SSL/TLS (use AWS ACM)
+- [ ] Configure CloudWatch for monitoring
+- [ ] Set up GitHub Actions for CI/CD
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, TypeScript, Vite, CSS
-- **Backend**: Java 17, Spring Boot 3.2, Maven
-- **Judges**: Python, Flask, Gunicorn
-- **Infrastructure**: Docker, Nginx, GitHub Actions
-- **Cloud**: AWS EC2 (Ubuntu)
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18, TypeScript, Tailwind CSS, Vite |
+| Backend | Java 17, Spring Boot 3.2, Spring Data JPA |
+| Judge | Python 3.10, Flask, Gunicorn |
+| Database | MySQL 8 (AWS RDS) |
+| Storage | AWS S3 |
+| Auth | AWS IAM Roles |
+| Container | Docker, nginx |
+
+---
 
 ## 📄 License
 

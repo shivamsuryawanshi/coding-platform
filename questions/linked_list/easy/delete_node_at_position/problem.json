@@ -1,0 +1,19 @@
+{
+  "id": "delete_node_at_position",
+  "title": "Delete Node at Position",
+  "category": "linked_list",
+  "difficulty": "easy",
+  "statement": "Given a singly linked list and a position P (1-indexed), delete the node at position P and return the modified list.",
+  "input_format": "First line contains N and P.\nSecond line contains N space-separated integers representing node values.",
+  "output_format": "Print the modified list as space-separated integers. Print empty line if list becomes empty.",
+  "constraints": "1 <= N <= 10^5\n1 <= P <= N\n-10^4 <= Node.val <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "basic", "deletion"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

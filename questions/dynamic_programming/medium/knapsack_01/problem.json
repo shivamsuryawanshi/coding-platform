@@ -1,0 +1,19 @@
+{
+  "id": "knapsack_01",
+  "title": "0/1 Knapsack Problem",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "Given N items with weights and values, and a knapsack with capacity W, find the maximum value that can be put in the knapsack. Each item can be included at most once.",
+  "input_format": "First line contains N and W.\nSecond line contains N weights.\nThird line contains N values.",
+  "output_format": "Print the maximum value.",
+  "constraints": "1 <= N <= 100\n1 <= W <= 10^4\n1 <= weight[i], value[i] <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "knapsack"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

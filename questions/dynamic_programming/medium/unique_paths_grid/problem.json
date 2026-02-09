@@ -1,0 +1,19 @@
+{
+  "id": "unique_paths_grid",
+  "title": "Unique Paths in Grid",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "A robot is at the top-left corner of an M x N grid. It can only move right or down. Find the number of unique paths to reach the bottom-right corner.",
+  "input_format": "Two integers M and N.",
+  "output_format": "Print the number of unique paths.",
+  "constraints": "1 <= M, N <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "grid", "combinatorics"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

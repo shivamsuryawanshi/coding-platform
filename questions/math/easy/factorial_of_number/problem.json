@@ -1,0 +1,19 @@
+{
+  "id": "factorial_of_number",
+  "title": "Factorial of a Number",
+  "category": "math",
+  "difficulty": "easy",
+  "statement": "Given a non-negative integer N, calculate N! (N factorial). For N=0, factorial is 1.",
+  "input_format": "A single integer N.",
+  "output_format": "Print the factorial of N.",
+  "constraints": "0 <= N <= 20",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "factorial"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "house_robber",
+  "title": "House Robber",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "You are a robber planning to rob houses along a street. Each house has money, but you cannot rob two adjacent houses (alarm triggers). Find the maximum amount you can rob.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers representing money in each house.",
+  "output_format": "Print the maximum money that can be robbed.",
+  "constraints": "1 <= N <= 100\n0 <= money[i] <= 400",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "array"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

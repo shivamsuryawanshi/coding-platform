@@ -1,0 +1,19 @@
+{
+  "id": "minimum_window_substring",
+  "title": "Minimum Window Substring",
+  "category": "strings",
+  "difficulty": "hard",
+  "statement": "Given two strings S and T, find the minimum window substring of S that contains all characters of T (including duplicates). If no such window exists, return empty string.",
+  "input_format": "First line contains string S.\nSecond line contains string T.",
+  "output_format": "Print the minimum window substring, or empty line if none exists.",
+  "constraints": "1 <= |S|, |T| <= 10^5\nS and T contain only uppercase and lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "sliding-window", "hashing"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

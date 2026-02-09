@@ -1,0 +1,19 @@
+{
+  "id": "remove_nth_from_end",
+  "title": "Remove Nth Node From End",
+  "category": "linked_list",
+  "difficulty": "medium",
+  "statement": "Given a linked list, remove the Nth node from the end of the list and return the modified list.",
+  "input_format": "First line contains SIZE and N.\nSecond line contains SIZE space-separated integers representing the list.",
+  "output_format": "Print the modified list. Print empty line if list becomes empty.",
+  "constraints": "1 <= SIZE <= 30\n1 <= N <= SIZE\n0 <= Node.val <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["linked-list", "two-pointers"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

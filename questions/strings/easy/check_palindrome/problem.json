@@ -1,0 +1,19 @@
+{
+  "id": "check_palindrome",
+  "title": "Check Palindrome String",
+  "category": "strings",
+  "difficulty": "easy",
+  "statement": "Given a string S containing only lowercase letters, determine if it reads the same forwards and backwards.",
+  "input_format": "A single line containing string S.",
+  "output_format": "Print 'YES' if S is a palindrome, otherwise print 'NO'.",
+  "constraints": "1 <= |S| <= 10^5\nS contains only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "palindrome", "two-pointers"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

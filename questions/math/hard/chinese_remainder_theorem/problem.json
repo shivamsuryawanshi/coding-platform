@@ -1,0 +1,19 @@
+{
+  "id": "chinese_remainder_theorem",
+  "title": "Chinese Remainder Theorem",
+  "category": "math",
+  "difficulty": "hard",
+  "statement": "Given N pairs of (remainder, modulo) where all moduli are pairwise coprime, find the smallest non-negative integer X such that X ≡ r_i (mod m_i) for all i.",
+  "input_format": "First line contains N.\nNext N lines each have remainder r_i and modulo m_i.",
+  "output_format": "Print the smallest X, or -1 if no solution exists.",
+  "constraints": "1 <= N <= 100\n1 <= r_i < m_i <= 10^9\nProduct of all m_i fits in 64-bit integer",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "number_theory", "crt"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

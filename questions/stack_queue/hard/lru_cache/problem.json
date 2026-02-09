@@ -1,0 +1,19 @@
+{
+  "id": "lru_cache",
+  "title": "LRU Cache",
+  "category": "stack_queue",
+  "difficulty": "hard",
+  "statement": "Design and implement a data structure for Least Recently Used (LRU) cache. It should support get(key) and put(key, value) operations in O(1) time. When the cache reaches its capacity, it should invalidate the least recently used item before inserting a new item.",
+  "input_format": "First line contains capacity and N (number of operations).\nNext N lines contain operations: GET key or PUT key value.",
+  "output_format": "For GET: print the value if key exists, else -1.",
+  "constraints": "1 <= capacity <= 3000\n0 <= key, value <= 10^4\n1 <= N <= 10^5",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["design", "hash-map", "doubly-linked-list", "cache"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

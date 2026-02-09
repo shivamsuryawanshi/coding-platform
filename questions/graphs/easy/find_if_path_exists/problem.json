@@ -1,0 +1,19 @@
+{
+  "id": "find_if_path_exists",
+  "title": "Find If Path Exists in Graph",
+  "category": "graphs",
+  "difficulty": "easy",
+  "statement": "Given an undirected graph with V vertices and E edges, and two vertices SOURCE and DESTINATION, determine if there is a valid path from SOURCE to DESTINATION.",
+  "input_format": "First line contains V, E, SOURCE, and DESTINATION.\nNext E lines contain two integers U and V representing an edge.",
+  "output_format": "Print 'YES' if a path exists, otherwise 'NO'.",
+  "constraints": "1 <= V <= 2 * 10^5\n0 <= E <= 2 * 10^5\n0 <= SOURCE, DESTINATION < V",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "bfs", "dfs", "path"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

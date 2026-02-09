@@ -1,0 +1,19 @@
+{
+  "id": "longest_increasing_subsequence",
+  "title": "Longest Increasing Subsequence",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "Given an array of N integers, find the length of the longest strictly increasing subsequence.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the length of LIS.",
+  "constraints": "1 <= N <= 2500\n-10^4 <= arr[i] <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "binary-search", "subsequence"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "job_sequencing",
+  "title": "Job Sequencing Problem",
+  "category": "greedy",
+  "difficulty": "hard",
+  "statement": "Given N jobs with deadlines and profits. Each job takes 1 unit of time and only one job can be done at a time. Find maximum profit and number of jobs done.",
+  "input_format": "First line contains N.\nNext N lines each have jobId, deadline, and profit.",
+  "output_format": "Print two integers: number of jobs done and total profit.",
+  "constraints": "1 <= N <= 10^5\n1 <= deadline <= N\n1 <= profit <= 500",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "sorting", "disjoint-set"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

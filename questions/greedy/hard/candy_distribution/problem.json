@@ -1,0 +1,19 @@
+{
+  "id": "candy_distribution",
+  "title": "Candy Distribution",
+  "category": "greedy",
+  "difficulty": "hard",
+  "statement": "N children stand in a line with ratings. Give candies following rules: each child gets at least one candy, children with higher rating get more candies than neighbors. Find minimum total candies needed.",
+  "input_format": "First line contains N.\nSecond line contains N ratings.",
+  "output_format": "Print the minimum number of candies.",
+  "constraints": "1 <= N <= 2 * 10^4\n0 <= ratings[i] <= 2 * 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "array"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

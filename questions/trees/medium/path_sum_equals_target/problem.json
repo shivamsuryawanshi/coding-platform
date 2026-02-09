@@ -1,0 +1,19 @@
+{
+  "id": "path_sum_equals_target",
+  "title": "Path Sum Equals Target",
+  "category": "trees",
+  "difficulty": "medium",
+  "statement": "Given a binary tree and a target sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the target.",
+  "input_format": "First line contains N and TARGET.\nSecond line contains N space-separated integers (-1 for null) representing level order.",
+  "output_format": "Print 'YES' if such a path exists, otherwise 'NO'.",
+  "constraints": "0 <= actual nodes <= 5000\n-1000 <= Node.val, TARGET <= 1000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "recursion", "dfs", "path"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "tree_postorder_traversal",
+  "title": "Binary Tree Postorder Traversal",
+  "category": "trees",
+  "difficulty": "easy",
+  "statement": "Given a binary tree represented in level order (with -1 for null nodes), return the postorder traversal of its nodes' values.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print space-separated integers representing postorder traversal.",
+  "constraints": "0 <= actual nodes <= 100\n-100 <= Node.val <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "traversal", "postorder", "recursion"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

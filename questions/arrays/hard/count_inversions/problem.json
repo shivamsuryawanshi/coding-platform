@@ -1,0 +1,19 @@
+{
+  "id": "count_inversions",
+  "title": "Count Inversions in Array",
+  "category": "arrays",
+  "difficulty": "hard",
+  "statement": "An inversion is a pair (i, j) where i < j but arr[i] > arr[j]. Given an array of N integers, count the total number of inversions.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the count of inversions.",
+  "constraints": "1 <= N <= 10^5\n-10^9 <= arr[i] <= 10^9",
+  "time_limit": 2,
+  "memory_limit": 256,
+  "tags": ["arrays", "merge-sort", "divide-and-conquer"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

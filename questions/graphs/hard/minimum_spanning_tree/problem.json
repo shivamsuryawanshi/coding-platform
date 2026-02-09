@@ -1,0 +1,19 @@
+{
+  "id": "minimum_spanning_tree",
+  "title": "Minimum Spanning Tree",
+  "category": "graphs",
+  "difficulty": "hard",
+  "statement": "Given a connected, undirected, weighted graph with V vertices and E edges, find the total weight of the Minimum Spanning Tree (MST).",
+  "input_format": "First line contains V and E.\nNext E lines contain three integers U, V, and W representing an edge between U and V with weight W.",
+  "output_format": "Print the total weight of the MST.",
+  "constraints": "2 <= V <= 10^4\nV-1 <= E <= V*(V-1)/2\n1 <= W <= 10^5",
+  "time_limit": 2,
+  "memory_limit": 256,
+  "tags": ["graph", "mst", "kruskal", "prim", "union-find"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

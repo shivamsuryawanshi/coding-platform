@@ -1,0 +1,19 @@
+{
+  "id": "partition_equal_subset_sum",
+  "title": "Partition Equal Subset Sum",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "Given an array of positive integers, determine if it can be partitioned into two subsets with equal sums.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print 'YES' if partitioning is possible, otherwise 'NO'.",
+  "constraints": "1 <= N <= 200\n1 <= arr[i] <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "subset-sum", "partition"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

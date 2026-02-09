@@ -1,0 +1,19 @@
+{
+  "id": "count_divisors",
+  "title": "Count Divisors",
+  "category": "math",
+  "difficulty": "medium",
+  "statement": "Given a positive integer N, count the total number of divisors of N.",
+  "input_format": "A single integer N.",
+  "output_format": "Print the count of divisors.",
+  "constraints": "1 <= N <= 10^12",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "number_theory"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

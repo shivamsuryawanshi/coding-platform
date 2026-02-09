@@ -1,0 +1,19 @@
+{
+  "id": "single_number_xor",
+  "title": "Single Number (XOR)",
+  "category": "bit_manipulation",
+  "difficulty": "medium",
+  "statement": "Given a non-empty array of integers where every element appears twice except for one, find that single one. Use XOR for linear time and constant space.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the single number.",
+  "constraints": "1 <= N <= 3 * 10^4\n-3 * 10^4 <= nums[i] <= 3 * 10^4\nN is odd (one element appears once, rest appear twice)",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["bit_manipulation", "xor"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

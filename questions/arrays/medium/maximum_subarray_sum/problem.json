@@ -1,0 +1,19 @@
+{
+  "id": "maximum_subarray_sum",
+  "title": "Maximum Subarray Sum",
+  "category": "arrays",
+  "difficulty": "medium",
+  "statement": "Given an array of N integers (can be negative), find the contiguous subarray with the maximum sum and return that sum.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the maximum subarray sum.",
+  "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "kadane", "dynamic-programming"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "gcd_of_two_numbers",
+  "title": "GCD of Two Numbers",
+  "category": "math",
+  "difficulty": "easy",
+  "statement": "Given two positive integers A and B, find their Greatest Common Divisor (GCD). The GCD is the largest positive integer that divides both numbers.",
+  "input_format": "A single line with two space-separated integers A and B.",
+  "output_format": "Print the GCD.",
+  "constraints": "1 <= A, B <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "gcd", "euclidean"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

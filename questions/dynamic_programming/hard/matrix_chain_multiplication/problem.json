@@ -1,0 +1,19 @@
+{
+  "id": "matrix_chain_multiplication",
+  "title": "Matrix Chain Multiplication",
+  "category": "dynamic_programming",
+  "difficulty": "hard",
+  "statement": "Given dimensions of N matrices, find the minimum number of scalar multiplications needed to multiply the chain of matrices. Matrix i has dimensions arr[i-1] x arr[i].",
+  "input_format": "First line contains N+1 (number of dimension values).\nSecond line contains N+1 space-separated integers.",
+  "output_format": "Print the minimum number of multiplications.",
+  "constraints": "2 <= N+1 <= 100\n1 <= arr[i] <= 500",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "matrix", "interval-dp"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

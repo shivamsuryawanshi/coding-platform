@@ -1,0 +1,19 @@
+{
+  "id": "largest_rectangle_histogram",
+  "title": "Largest Rectangle in Histogram",
+  "category": "stack_queue",
+  "difficulty": "hard",
+  "statement": "Given an array of N integers representing the heights of bars in a histogram where each bar has width 1, find the area of the largest rectangle that can be formed in the histogram.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated non-negative integers representing heights.",
+  "output_format": "Print the maximum rectangular area.",
+  "constraints": "1 <= N <= 10^5\n0 <= heights[i] <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["stack", "monotonic-stack", "histogram"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

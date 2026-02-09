@@ -1,0 +1,19 @@
+{
+  "id": "check_ith_bit_set",
+  "title": "Check if i-th Bit is Set",
+  "category": "bit_manipulation",
+  "difficulty": "easy",
+  "statement": "Given a number N and a position i (0-indexed from right), determine if the i-th bit of N is set (1) or not (0).",
+  "input_format": "A single line with two space-separated integers N and i.",
+  "output_format": "Print 'YES' if the i-th bit is set, otherwise 'NO'.",
+  "constraints": "0 <= N <= 2^31 - 1\n0 <= i <= 30",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["bit_manipulation"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

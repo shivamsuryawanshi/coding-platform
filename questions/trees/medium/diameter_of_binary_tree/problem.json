@@ -1,0 +1,19 @@
+{
+  "id": "diameter_of_binary_tree",
+  "title": "Diameter of Binary Tree",
+  "category": "trees",
+  "difficulty": "medium",
+  "statement": "Given a binary tree, find its diameter. The diameter is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root. Length is number of edges.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print the diameter (number of edges on longest path).",
+  "constraints": "1 <= actual nodes <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "recursion", "dfs"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "level_order_traversal",
+  "title": "Level Order Traversal",
+  "category": "trees",
+  "difficulty": "medium",
+  "statement": "Given a binary tree, return the level order traversal of its nodes' values (from left to right, level by level).",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print each level on a separate line, with space-separated values.",
+  "constraints": "0 <= actual nodes <= 2000",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "bfs", "level-order"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

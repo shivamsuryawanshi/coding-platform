@@ -1,0 +1,19 @@
+{
+  "id": "assign_cookies",
+  "title": "Assign Cookies",
+  "category": "greedy",
+  "difficulty": "easy",
+  "statement": "You have children with greed factors and cookies of different sizes. A child is content if cookie size >= greed factor. Maximize the number of content children.",
+  "input_format": "First line contains G (number of children) and S (number of cookies).\nSecond line contains G greed factors.\nThird line contains S cookie sizes.",
+  "output_format": "Print the maximum number of content children.",
+  "constraints": "1 <= G, S <= 3 * 10^4\n1 <= g[i], s[j] <= 2^31 - 1",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "sorting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

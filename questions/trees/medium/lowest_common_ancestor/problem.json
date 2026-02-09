@@ -1,0 +1,19 @@
+{
+  "id": "lowest_common_ancestor",
+  "title": "Lowest Common Ancestor",
+  "category": "trees",
+  "difficulty": "medium",
+  "statement": "Given a binary tree and two nodes P and Q, find the lowest common ancestor (LCA). LCA is the lowest node that has both P and Q as descendants (a node can be a descendant of itself).",
+  "input_format": "First line contains N, P, and Q.\nSecond line contains N space-separated integers (-1 for null) representing level order.",
+  "output_format": "Print the value of the LCA node.",
+  "constraints": "2 <= actual nodes <= 10^5\nAll node values are unique.\nP and Q exist in the tree.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "recursion", "lca"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "minimum_platforms",
+  "title": "Minimum Platforms",
+  "category": "greedy",
+  "difficulty": "medium",
+  "statement": "Given arrival and departure times of all trains, find the minimum number of platforms required so that no train waits.",
+  "input_format": "First line contains N.\nSecond line contains N arrival times.\nThird line contains N departure times.",
+  "output_format": "Print the minimum number of platforms.",
+  "constraints": "1 <= N <= 10^5\n0 <= arrival[i] <= departure[i] <= 2359",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "sorting", "interval"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "edit_distance",
+  "title": "Edit Distance",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "Given two strings S1 and S2, find the minimum number of operations to convert S1 to S2. Allowed operations: insert, delete, or replace a character.",
+  "input_format": "First line contains string S1.\nSecond line contains string S2.",
+  "output_format": "Print the minimum number of operations.",
+  "constraints": "0 <= |S1|, |S2| <= 500\nStrings contain only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "edit-distance", "string"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

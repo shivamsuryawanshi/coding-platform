@@ -1,0 +1,19 @@
+{
+  "id": "maximum_depth_binary_tree",
+  "title": "Maximum Depth of Binary Tree",
+  "category": "trees",
+  "difficulty": "easy",
+  "statement": "Given a binary tree, find its maximum depth. Maximum depth is the number of nodes along the longest path from root to the farthest leaf node.",
+  "input_format": "First line contains N (number of nodes including nulls in level order).\nSecond line contains N space-separated integers (-1 for null).",
+  "output_format": "Print the maximum depth.",
+  "constraints": "0 <= actual nodes <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["tree", "recursion", "dfs", "depth"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

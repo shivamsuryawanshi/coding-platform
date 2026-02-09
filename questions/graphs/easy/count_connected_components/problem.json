@@ -1,0 +1,19 @@
+{
+  "id": "count_connected_components",
+  "title": "Count Connected Components",
+  "category": "graphs",
+  "difficulty": "easy",
+  "statement": "Given an undirected graph with V vertices and E edges, count the number of connected components in the graph.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing an edge.",
+  "output_format": "Print the number of connected components.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)/2",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "dfs", "bfs", "connected-components"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

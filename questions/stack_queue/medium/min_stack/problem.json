@@ -1,0 +1,19 @@
+{
+  "id": "min_stack",
+  "title": "Min Stack",
+  "category": "stack_queue",
+  "difficulty": "medium",
+  "statement": "Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.",
+  "input_format": "First line contains N (number of operations).\nNext N lines contain operations: PUSH x, POP, TOP, or GETMIN.",
+  "output_format": "For TOP: print the top element or -1 if empty.\nFor GETMIN: print the minimum element or -1 if empty.",
+  "constraints": "1 <= N <= 10^5\n-10^9 <= x <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["stack", "design", "optimization"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

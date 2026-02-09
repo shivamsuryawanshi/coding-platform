@@ -1,0 +1,19 @@
+{
+  "id": "count_ways_to_reach_n",
+  "title": "Count Ways to Reach Nth Stair",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "Given N stairs and the ability to climb 1, 2, or 3 stairs at a time, count the number of ways to reach the Nth stair. Return answer modulo 10^9+7.",
+  "input_format": "A single integer N.",
+  "output_format": "Print the count of ways modulo 10^9+7.",
+  "constraints": "1 <= N <= 10^5",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "counting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

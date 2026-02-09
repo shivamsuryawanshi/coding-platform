@@ -1,0 +1,19 @@
+{
+  "id": "nCr_modulo_p",
+  "title": "nCr Modulo P",
+  "category": "math",
+  "difficulty": "medium",
+  "statement": "Given N, R, and a prime P, compute the binomial coefficient C(N, R) modulo P. Use modular inverse for efficient computation.",
+  "input_format": "A single line with three space-separated integers N, R, P.",
+  "output_format": "Print C(N, R) mod P.",
+  "constraints": "0 <= R <= N <= 10^6\nP is prime and P <= 10^9 + 7",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "combinatorics", "modular_inverse"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

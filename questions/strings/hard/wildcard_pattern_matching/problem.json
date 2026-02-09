@@ -1,0 +1,19 @@
+{
+  "id": "wildcard_pattern_matching",
+  "title": "Wildcard Pattern Matching",
+  "category": "strings",
+  "difficulty": "hard",
+  "statement": "Given a string S and a pattern P, implement wildcard pattern matching with support for '?' and '*'. '?' matches any single character, '*' matches any sequence of characters (including empty).",
+  "input_format": "First line contains string S.\nSecond line contains pattern P.",
+  "output_format": "Print 'YES' if the pattern matches the entire string, otherwise 'NO'.",
+  "constraints": "0 <= |S| <= 2000\n0 <= |P| <= 2000\nS contains only lowercase English letters.\nP contains lowercase English letters, '?' and '*'.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["strings", "dynamic-programming", "greedy"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

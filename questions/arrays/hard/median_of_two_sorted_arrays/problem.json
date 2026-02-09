@@ -1,0 +1,19 @@
+{
+  "id": "median_of_two_sorted_arrays",
+  "title": "Median of Two Sorted Arrays",
+  "category": "arrays",
+  "difficulty": "hard",
+  "statement": "Given two sorted arrays of sizes N and M, find the median of the combined sorted array. The overall run time complexity should be O(log(min(N,M))).",
+  "input_format": "First line contains N and M.\nSecond line contains N space-separated integers (first sorted array).\nThird line contains M space-separated integers (second sorted array).",
+  "output_format": "Print the median with exactly 1 decimal place.",
+  "constraints": "0 <= N, M <= 10^5\nN + M >= 1\n-10^6 <= arr[i] <= 10^6",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "binary-search", "divide-and-conquer"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

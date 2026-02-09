@@ -1,0 +1,19 @@
+{
+  "id": "climbing_stairs",
+  "title": "Climbing Stairs",
+  "category": "dynamic_programming",
+  "difficulty": "easy",
+  "statement": "You are climbing a staircase with N steps. Each time you can climb 1 or 2 steps. In how many distinct ways can you reach the top?",
+  "input_format": "A single integer N.",
+  "output_format": "Print the number of distinct ways.",
+  "constraints": "1 <= N <= 45",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "fibonacci"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

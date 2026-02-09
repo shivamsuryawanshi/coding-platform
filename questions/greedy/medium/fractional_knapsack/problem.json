@@ -1,0 +1,19 @@
+{
+  "id": "fractional_knapsack",
+  "title": "Fractional Knapsack",
+  "category": "greedy",
+  "difficulty": "medium",
+  "statement": "Given N items with weights and values, and a knapsack capacity W, find the maximum value. Items can be broken into fractions.",
+  "input_format": "First line contains N and W.\nNext N lines each have value and weight.",
+  "output_format": "Print the maximum value with 2 decimal places.",
+  "constraints": "1 <= N <= 10^5\n1 <= W <= 10^9\n1 <= value, weight <= 10^4",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["greedy", "knapsack", "sorting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

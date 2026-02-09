@@ -1,0 +1,19 @@
+{
+  "id": "burst_balloons",
+  "title": "Burst Balloons",
+  "category": "dynamic_programming",
+  "difficulty": "hard",
+  "statement": "Given N balloons with numbers. When you burst balloon i, you get nums[i-1] * nums[i] * nums[i+1] coins. Boundary balloons are treated as having value 1. Find the maximum coins you can collect by bursting all balloons wisely.",
+  "input_format": "First line contains N.\nSecond line contains N space-separated integers.",
+  "output_format": "Print the maximum coins.",
+  "constraints": "1 <= N <= 300\n0 <= nums[i] <= 100",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "interval-dp"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

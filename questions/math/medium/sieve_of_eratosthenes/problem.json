@@ -1,0 +1,19 @@
+{
+  "id": "sieve_of_eratosthenes",
+  "title": "Sieve of Eratosthenes",
+  "category": "math",
+  "difficulty": "medium",
+  "statement": "Given a number N, find all prime numbers from 2 to N using the Sieve of Eratosthenes algorithm.",
+  "input_format": "A single integer N.",
+  "output_format": "Print all primes from 2 to N space-separated.",
+  "constraints": "2 <= N <= 10^6",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["math", "sieve", "prime"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

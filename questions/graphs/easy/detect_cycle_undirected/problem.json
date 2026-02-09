@@ -1,0 +1,19 @@
+{
+  "id": "detect_cycle_undirected",
+  "title": "Detect Cycle in Undirected Graph",
+  "category": "graphs",
+  "difficulty": "easy",
+  "statement": "Given an undirected graph with V vertices and E edges, determine if there exists a cycle in the graph.",
+  "input_format": "First line contains V and E.\nNext E lines contain two integers U and V representing an edge.",
+  "output_format": "Print 'YES' if a cycle exists, otherwise 'NO'.",
+  "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)/2",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["graph", "cycle-detection", "dfs", "union-find"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

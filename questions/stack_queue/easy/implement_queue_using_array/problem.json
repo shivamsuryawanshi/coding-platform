@@ -1,0 +1,19 @@
+{
+  "id": "implement_queue_using_array",
+  "title": "Implement Queue Using Array",
+  "category": "stack_queue",
+  "difficulty": "easy",
+  "statement": "Implement a queue that supports enqueue, dequeue, front, and isEmpty operations. Given a sequence of operations, execute them and print the results.",
+  "input_format": "First line contains N (number of operations).\nNext N lines contain operations: ENQUEUE x, DEQUEUE, FRONT, or ISEMPTY.",
+  "output_format": "For DEQUEUE: print the dequeued element or -1 if empty.\nFor FRONT: print the front element or -1 if empty.\nFor ISEMPTY: print 'true' or 'false'.",
+  "constraints": "1 <= N <= 10^4\n-10^9 <= x <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["queue", "implementation", "basic"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

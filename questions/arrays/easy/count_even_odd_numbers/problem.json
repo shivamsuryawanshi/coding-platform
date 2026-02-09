@@ -1,0 +1,19 @@
+{
+  "id": "count_even_odd_numbers",
+  "title": "Count Even and Odd Numbers",
+  "category": "arrays",
+  "difficulty": "easy",
+  "statement": "Given an array of N positive integers, count how many numbers are even and how many are odd.",
+  "input_format": "First line contains N, the number of elements.\nSecond line contains N space-separated positive integers.",
+  "output_format": "Print two space-separated integers - count of even numbers followed by count of odd numbers.",
+  "constraints": "1 <= N <= 10^5\n1 <= arr[i] <= 10^9",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["arrays", "basic", "counting"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+

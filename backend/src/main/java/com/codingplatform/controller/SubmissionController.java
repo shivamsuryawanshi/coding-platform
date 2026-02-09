@@ -1,6 +1,5 @@
 package com.codingplatform.controller;
 
-import com.codingplatform.dto.JudgeResponse;
 import com.codingplatform.dto.SubmissionRequest;
 import com.codingplatform.dto.SubmissionResponse;
 import com.codingplatform.service.JudgeService;
@@ -14,20 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * REST Controller for handling code submissions.
- * 
- * This controller is the entry point for all code submission requests.
- * It validates incoming requests and delegates to the JudgeService
- * for actual code evaluation.
+ * REST Controller for code submissions.
  * 
  * Endpoints:
- * - GET  /problem - Get problem statement
- * - POST /submit  - Submit code for evaluation
- * - GET  /health  - Health check
+ * - POST /api/submit - Submit code for evaluation
+ * - GET /api/health - Health check
  */
 @RestController
-@RequestMapping
-@CrossOrigin(origins = "*")  // Allow frontend to call backend
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class SubmissionController {
 
     private static final Logger logger = LoggerFactory.getLogger(SubmissionController.class);
@@ -40,86 +34,51 @@ public class SubmissionController {
 
     /**
      * Submit code for evaluation.
-     *
-     * @param request The submission request containing language and user code
-     * @return SubmissionResponse with the verdict
      */
     @PostMapping("/submit")
     public ResponseEntity<SubmissionResponse> submitCode(@Valid @RequestBody SubmissionRequest request) {
-        logger.info("Received {} code submission", request.getLanguage());
-        
+        logger.info("POST /api/submit - problem={}, language={}",
+                request.getProblemId(), request.getLanguage());
+
         try {
-            // Forward to appropriate judge service based on language
-            JudgeResponse judgeResponse = judgeService.submitCode(request);
-            
-            // Convert to submission response
-            SubmissionResponse response = SubmissionResponse.fromJudgeResponse(judgeResponse);
-            
+            SubmissionResponse response = judgeService.submitCode(request);
             return ResponseEntity.ok(response);
-            
         } catch (JudgeService.JudgeServiceException e) {
-            logger.error("Judge service error: {}", e.getMessage());
-            return ResponseEntity
-                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+            logger.error("Submission error: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(SubmissionResponse.error(e.getMessage()));
         }
     }
 
     /**
-     * Get the problem statement.
-     *
-     * @return Problem details from the judge service
-     */
-    @SuppressWarnings("rawtypes")
-    @GetMapping("/problem")
-    public ResponseEntity<Map> getProblem() {
-        logger.info("Fetching problem statement");
-        
-        try {
-            Map problem = judgeService.getProblem();
-            return ResponseEntity.ok(problem);
-        } catch (JudgeService.JudgeServiceException e) {
-            logger.error("Failed to fetch problem: {}", e.getMessage());
-            return ResponseEntity
-                    .status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(Map.of("error", e.getMessage()));
-        }
-    }
-
-    /**
-     * Health check endpoint for the backend.
-     * Returns health status for all language judges.
+     * Health check endpoint.
      */
     @GetMapping("/health")
     public ResponseEntity<Map<String, Object>> health() {
-        Map<String, Boolean> judgesHealth = judgeService.getAllJudgesHealth();
-        boolean anyHealthy = judgeService.isAnyJudgeHealthy();
-        
-        Map<String, Object> healthStatus = Map.of(
-                "status", anyHealthy ? "healthy" : "degraded",
+        boolean judgeHealthy = judgeService.isJudgeHealthy();
+
+        Map<String, Object> status = Map.of(
+                "status", judgeHealthy ? "healthy" : "degraded",
                 "service", "backend",
-                "version", "1.0.0",
-                "judges", judgesHealth
-        );
-        
-        HttpStatus status = anyHealthy ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE;
-        return ResponseEntity.status(status).body(healthStatus);
+                "version", "2.0.0",
+                "judge", judgeHealthy);
+
+        HttpStatus httpStatus = judgeHealthy ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE;
+        return ResponseEntity.status(httpStatus).body(status);
     }
 
     /**
-     * Get list of supported languages.
+     * Get supported languages.
      */
     @GetMapping("/languages")
     public ResponseEntity<Map<String, Object>> getLanguages() {
         return ResponseEntity.ok(Map.of(
-                "languages", new String[]{"python", "cpp", "java", "js"},
+                "languages", new String[] { "python", "cpp", "java", "javascript" },
                 "display", Map.of(
-                        "python", "Python",
-                        "cpp", "C++",
-                        "java", "Java",
-                        "js", "JavaScript"
-                )
-        ));
+                        "python", "Python 3.10",
+                        "cpp", "C++ 17",
+                        "java", "Java 17",
+                        "javascript", "Node.js LTS")));
     }
 
     /**
@@ -128,15 +87,12 @@ public class SubmissionController {
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
     public ResponseEntity<SubmissionResponse> handleValidationException(
             org.springframework.web.bind.MethodArgumentNotValidException e) {
-        
+
         String errorMessage = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .findFirst()
                 .orElse("Validation failed");
-        
-        return ResponseEntity
-                .badRequest()
-                .body(SubmissionResponse.error(errorMessage));
+
+        return ResponseEntity.badRequest().body(SubmissionResponse.error(errorMessage));
     }
 }
-

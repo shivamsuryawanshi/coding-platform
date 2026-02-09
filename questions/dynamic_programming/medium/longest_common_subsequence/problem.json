@@ -1,0 +1,19 @@
+{
+  "id": "longest_common_subsequence",
+  "title": "Longest Common Subsequence",
+  "category": "dynamic_programming",
+  "difficulty": "medium",
+  "statement": "Given two strings S1 and S2, find the length of their longest common subsequence. A subsequence is a sequence derived by deleting some characters without changing the order.",
+  "input_format": "First line contains string S1.\nSecond line contains string S2.",
+  "output_format": "Print the length of LCS.",
+  "constraints": "1 <= |S1|, |S2| <= 1000\nStrings contain only lowercase English letters.",
+  "time_limit": 1,
+  "memory_limit": 256,
+  "tags": ["dp", "lcs", "string"],
+  "languages": ["cpp", "java", "python", "javascript"]
+}
+
+
+
+
+
