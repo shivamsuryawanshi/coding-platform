@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "scripts/*,questions/*"
           target: "~/codenexus/"
-          timeout: 300s
+          timeout: 600s
 
       - name: Run migration on EC2
         uses: appleboy/ssh-action@v1.0.3

@@ -130,7 +130,7 @@ class S3Manager:
                     Body=f.read(),
                     ContentType='text/plain'
                 )
-            logger.debug(f"Uploaded: {s3_key}")
+            logger.info(f"  ✓ Uploaded to S3: {s3_key}")
             return True
         except ClientError as e:
             logger.error(f"S3 upload failed for {s3_key}: {e}")

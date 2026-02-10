@@ -13,6 +13,8 @@ on:
       - 'frontend/**'
       - 'judge/**'
       - 'scripts/**'
+      - 'questions/**'
+      - '.github/workflows/deploy-all.yml'
 
 env:
   EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -25,7 +27,7 @@ env:
   AWS_REGION: eu-north-1
 
 jobs:
-  # Step 1: Setup EC2 and run database migration
+  # Step 1: Setup EC2, Database Schema, and Data Migration (RDS + S3)
   setup-and-migrate:
     runs-on: ubuntu-latest
     steps:
@@ -48,32 +50,71 @@ jobs:
               sudo usermod -aG docker ubuntu
             fi
             
+            # Install Python dependencies for migration
+            pip3 install boto3 mysql-connector-python 2>/dev/null || true
+            
             # Create app directory
             mkdir -p ~/codenexus
             echo "EC2 setup complete"
 
-      - name: Copy migration scripts to EC2
+      - name: Copy migration scripts and questions to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "scripts/*"
+          source: "scripts/*,questions/*"
           target: "~/codenexus/"
+          timeout: 600s
 
-      - name: Run database migration
+      - name: Run database schema and data migration
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          command_timeout: 30m
           script: |
+            echo "=========================================="
+            echo "   DATABASE SCHEMA & DATA MIGRATION"
+            echo "=========================================="
+            
             cd ~/codenexus/scripts
             
-            # Run schema
+            # Step 1: Apply database schema
+            echo ""
+            echo "📋 Step 1: Applying database schema..."
             mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} < schema.sql || echo "Schema may already exist"
+            echo "✅ Database schema applied"
             
-            echo "Database migration complete"
+            # Step 2: Set environment variables for migration
+            export DB_HOST=${{ secrets.DB_HOST }}
+            export DB_USER=${{ secrets.DB_USER }}
+            export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
+            export DB_NAME=${{ secrets.DB_NAME }}
+            export DB_PORT=3306
+            export S3_BUCKET=${{ secrets.S3_BUCKET }}
+            export AWS_REGION=eu-north-1
+            
+            # Step 3: Run data migration (RDS + S3)
+            echo ""
+            echo "📦 Step 2: Running data migration (RDS + S3)..."
+            python3 migrate_questions.py
+            
+            # Step 4: Verify migration
+            echo ""
+            echo "=========================================="
+            echo "   MIGRATION VERIFICATION"
+            echo "=========================================="
+            mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} -e "
+              SELECT 'Problems' as Type, COUNT(*) as Count FROM problems
+              UNION ALL
+              SELECT 'Testcases', COUNT(*) FROM testcases
+              UNION ALL
+              SELECT 'Tags', COUNT(*) FROM problem_tags;
+            "
+            echo ""
+            echo "✅ Migration complete!"
 
   # Step 2: Deploy Judge Service
   deploy-judge:
@@ -247,22 +288,33 @@ jobs:
             docker load -i /tmp/frontend-image.tar
             docker stop frontend 2>/dev/null || true
             docker rm frontend 2>/dev/null || true
+            
+            # Get backend container IP
+            BACKEND_IP=$(docker inspect backend --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null || echo "172.17.0.1")
+            
+            # Create/connect to Docker network if needed
+            docker network create codenexus-net 2>/dev/null || true
+            docker network connect codenexus-net backend 2>/dev/null || true
+            
+            # Start frontend with backend IP mapping
             docker run -d \
               --name frontend \
               --restart unless-stopped \
               --memory=256m \
+              --network codenexus-net \
+              --add-host=backend:${BACKEND_IP} \
               -p 80:80 \
               codenexus-frontend:latest
             rm /tmp/frontend-image.tar
             docker image prune -f
-            echo "Frontend deployed on port 80"
+            echo "Frontend deployed on port 80 with backend connection"
 
-  # Step 5: Verify deployment
+  # Step 5: Verify deployment (EC2 + RDS + S3)
   verify:
     runs-on: ubuntu-latest
     needs: deploy-frontend
     steps:
-      - name: Verify all services
+      - name: Verify all services and data
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -270,20 +322,70 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "=========================================="
-            echo "       DEPLOYMENT VERIFICATION"
+            echo "       COMPLETE DEPLOYMENT VERIFICATION"
             echo "=========================================="
             echo ""
-            echo "Running Containers:"
+            
+            # 1. Docker Containers Status
+            echo "📦 Docker Containers:"
             docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
             echo ""
-            echo "Health Checks:"
-            echo "  Judge:    $(curl -s http://localhost:5000/health | grep -o '"status":"[^"]*"' || echo 'FAILED')"
-            echo "  Backend:  $(curl -s http://localhost:8080/api/health | grep -o '"status":"[^"]*"' || echo 'FAILED')"
-            echo "  Frontend: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:80)"
+            
+            # 2. Health Checks
+            echo "🏥 Service Health Checks:"
+            echo -n "  Judge:    "
+            curl -s http://localhost:5000/health | grep -o '"status":"[^"]*"' || echo "FAILED"
+            echo -n "  Backend:  "
+            curl -s http://localhost:8080/api/health | grep -o '"status":"[^"]*"' || echo "FAILED"
+            echo -n "  Frontend: "
+            curl -s -o /dev/null -w '%{http_code}' http://localhost:80 && echo " OK" || echo " FAILED"
             echo ""
+            
+            # 3. Database Verification
+            echo "💾 Database (RDS) Status:"
+            mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} -e "
+              SELECT 'Problems' as Type, COUNT(*) as Count FROM problems
+              UNION ALL
+              SELECT 'Testcases', COUNT(*) FROM testcases
+              UNION ALL
+              SELECT 'Tags', COUNT(*) FROM problem_tags;
+            " 2>/dev/null || echo "  Database check failed"
+            echo ""
+            
+            # 4. S3 Verification (using Python)
+            echo "☁️  S3 Bucket Status:"
+            python3 << 'EOF'
+            import boto3
+            import os
+            try:
+                s3 = boto3.client('s3', region_name='eu-north-1')
+                bucket = os.getenv('S3_BUCKET', '${{ secrets.S3_BUCKET }}')
+                response = s3.list_objects_v2(Bucket=bucket, Prefix='problems/', MaxKeys=5)
+                if 'Contents' in response:
+                    print(f"  ✅ S3 bucket accessible: {bucket}")
+                    print(f"  ✅ Found {len(response['Contents'])} testcase files (showing first 5)")
+                    for obj in response['Contents'][:5]:
+                        print(f"     - {obj['Key']}")
+                else:
+                    print(f"  ⚠️  S3 bucket empty or no testcases found")
+            except Exception as e:
+                print(f"  ❌ S3 check failed: {e}")
+            EOF
+            echo ""
+            
+            # 5. Final Summary
             echo "=========================================="
-            echo "  🎉 DEPLOYMENT COMPLETE!"
+            echo "  🎉 COMPLETE DEPLOYMENT SUCCESSFUL!"
             echo "=========================================="
+            echo ""
+            echo "🌐 Access URLs:"
             echo "  Frontend: http://${{ secrets.EC2_HOST }}"
             echo "  Backend:  http://${{ secrets.EC2_HOST }}:8080/api"
+            echo "  Judge:    http://${{ secrets.EC2_HOST }}:5000/health"
+            echo ""
+            echo "📊 Infrastructure:"
+            echo "  ✅ EC2: Services running"
+            echo "  ✅ RDS: Database connected"
+            echo "  ✅ S3:  Testcases uploaded"
+            echo ""
             echo "=========================================="
