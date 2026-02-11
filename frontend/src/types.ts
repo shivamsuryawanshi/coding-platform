@@ -65,6 +65,39 @@ export interface Stats {
   categories: number;
 }
 
+export interface AuthRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  email: string;
+  userId: number;
+}
+
+export interface SubmissionHistory {
+  id: number;
+  problemId: string;
+  problemTitle: string;
+  language: string;
+  status: string;
+  verdict: string;
+  passedTests: number;
+  totalTests: number;
+  submittedAt: string;
+}
+
+export interface PaginatedResponse<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
 export type Language = 'python' | 'cpp' | 'java' | 'javascript';
 
 export const LANGUAGES: Record<Language, { name: string; extension: string; starterCode: string }> = {

@@ -51,7 +51,7 @@ jobs:
             fi
             
             # Install Python dependencies for migration
-            pip3 install boto3 mysql-connector-python 2>/dev/null || true
+            pip3 install --break-system-packages boto3 mysql-connector-python 2>/dev/null || true
             
             # Create app directory
             mkdir -p ~/codenexus
@@ -87,6 +87,12 @@ jobs:
             mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} < schema.sql || echo "Schema may already exist"
             echo "✅ Database schema applied"
             
+            # Step 1.5: Apply auth migration (users table + submissions updates)
+            echo ""
+            echo "📋 Step 1.5: Applying auth migration..."
+            mysql -h ${{ secrets.DB_HOST }} -P 3306 -u ${{ secrets.DB_USER }} -p'${{ secrets.DB_PASSWORD }}' ${{ secrets.DB_NAME }} < migration_auth.sql 2>&1 || echo "Auth migration may already be applied"
+            echo "✅ Auth migration applied"
+            
             # Step 2: Set environment variables for migration
             export DB_HOST=${{ secrets.DB_HOST }}
             export DB_USER=${{ secrets.DB_USER }}
@@ -111,7 +117,9 @@ jobs:
               UNION ALL
               SELECT 'Testcases', COUNT(*) FROM testcases
               UNION ALL
-              SELECT 'Tags', COUNT(*) FROM problem_tags;
+              SELECT 'Tags', COUNT(*) FROM problem_tags
+              UNION ALL
+              SELECT 'Users', COUNT(*) FROM users;
             "
             echo ""
             echo "✅ Migration complete!"
@@ -231,6 +239,8 @@ jobs:
               -e S3_BUCKET=${{ secrets.S3_BUCKET }} \
               -e JUDGE_HOST=172.17.0.1 \
               -e JUDGE_PORT=5000 \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e JWT_EXPIRATION=86400000 \
               codenexus-backend:latest
             rm /tmp/backend-image.tar
             echo "Backend deployed on port 8080"
@@ -348,7 +358,11 @@ jobs:
               UNION ALL
               SELECT 'Testcases', COUNT(*) FROM testcases
               UNION ALL
-              SELECT 'Tags', COUNT(*) FROM problem_tags;
+              SELECT 'Tags', COUNT(*) FROM problem_tags
+              UNION ALL
+              SELECT 'Users', COUNT(*) FROM users
+              UNION ALL
+              SELECT 'Submissions', COUNT(*) FROM submissions;
             " 2>/dev/null || echo "  Database check failed"
             echo ""
             

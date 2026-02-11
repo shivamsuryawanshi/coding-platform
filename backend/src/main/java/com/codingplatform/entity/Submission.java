@@ -16,6 +16,10 @@ public class Submission {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id", nullable = false)
     private Problem problem;
 
@@ -25,6 +29,10 @@ public class Submission {
 
     @Column(name = "code", columnDefinition = "TEXT", nullable = false)
     private String code;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private SubmissionStatus status = SubmissionStatus.QUEUED;
 
     @Column(name = "verdict", length = 50)
     private String verdict;
@@ -51,50 +59,127 @@ public class Submission {
         python, cpp, java, javascript
     }
 
+    public enum SubmissionStatus {
+        QUEUED, RUNNING, ACCEPTED, WRONG_ANSWER, TLE, RE, CE
+    }
+
     // Constructors
     public Submission() {
         this.submittedAt = LocalDateTime.now();
+        this.status = SubmissionStatus.QUEUED;
     }
 
-    public Submission(Problem problem, Language language, String code) {
+    public Submission(User user, Problem problem, Language language, String code) {
+        this.user = user;
         this.problem = problem;
         this.language = language;
         this.code = code;
         this.submittedAt = LocalDateTime.now();
+        this.status = SubmissionStatus.QUEUED;
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Problem getProblem() { return problem; }
-    public void setProblem(Problem problem) { this.problem = problem; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Language getLanguage() { return language; }
-    public void setLanguage(Language language) { this.language = language; }
+    public User getUser() {
+        return user;
+    }
 
-    public String getCode() { return code; }
-    public void setCode(String code) { this.code = code; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public String getVerdict() { return verdict; }
-    public void setVerdict(String verdict) { this.verdict = verdict; }
+    public Problem getProblem() {
+        return problem;
+    }
 
-    public Integer getPassedTests() { return passedTests; }
-    public void setPassedTests(Integer passedTests) { this.passedTests = passedTests; }
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
 
-    public Integer getTotalTests() { return totalTests; }
-    public void setTotalTests(Integer totalTests) { this.totalTests = totalTests; }
+    public Language getLanguage() {
+        return language;
+    }
 
-    public Integer getExecutionTimeMs() { return executionTimeMs; }
-    public void setExecutionTimeMs(Integer executionTimeMs) { this.executionTimeMs = executionTimeMs; }
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
 
-    public Integer getMemoryUsedKb() { return memoryUsedKb; }
-    public void setMemoryUsedKb(Integer memoryUsedKb) { this.memoryUsedKb = memoryUsedKb; }
+    public String getCode() {
+        return code;
+    }
 
-    public String getErrorMessage() { return errorMessage; }
-    public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-    public LocalDateTime getSubmittedAt() { return submittedAt; }
-    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
+    public SubmissionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SubmissionStatus status) {
+        this.status = status;
+    }
+
+    public String getVerdict() {
+        return verdict;
+    }
+
+    public void setVerdict(String verdict) {
+        this.verdict = verdict;
+    }
+
+    public Integer getPassedTests() {
+        return passedTests;
+    }
+
+    public void setPassedTests(Integer passedTests) {
+        this.passedTests = passedTests;
+    }
+
+    public Integer getTotalTests() {
+        return totalTests;
+    }
+
+    public void setTotalTests(Integer totalTests) {
+        this.totalTests = totalTests;
+    }
+
+    public Integer getExecutionTimeMs() {
+        return executionTimeMs;
+    }
+
+    public void setExecutionTimeMs(Integer executionTimeMs) {
+        this.executionTimeMs = executionTimeMs;
+    }
+
+    public Integer getMemoryUsedKb() {
+        return memoryUsedKb;
+    }
+
+    public void setMemoryUsedKb(Integer memoryUsedKb) {
+        this.memoryUsedKb = memoryUsedKb;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public void setSubmittedAt(LocalDateTime submittedAt) {
+        this.submittedAt = submittedAt;
+    }
 }
-

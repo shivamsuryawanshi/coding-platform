@@ -62,14 +62,29 @@ CREATE TABLE IF NOT EXISTS testcases (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================
+-- Table: users
+-- User accounts for authentication
+-- ============================================
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    INDEX idx_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================
 -- Table: submissions
 -- User submission history
 -- ============================================
 CREATE TABLE IF NOT EXISTS submissions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NULL,
     problem_id VARCHAR(120) NOT NULL,
     language ENUM('python', 'cpp', 'java', 'javascript') NOT NULL,
     code TEXT NOT NULL,
+    status ENUM('QUEUED','RUNNING','ACCEPTED','WRONG_ANSWER','TLE','RE','CE') DEFAULT 'QUEUED',
     verdict VARCHAR(50),
     passed_tests INT DEFAULT 0,
     total_tests INT DEFAULT 0,
@@ -78,9 +93,12 @@ CREATE TABLE IF NOT EXISTS submissions (
     error_message TEXT,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (problem_id) REFERENCES problems(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
     INDEX idx_problem_id (problem_id),
     INDEX idx_submitted_at (submitted_at),
+    INDEX idx_status (status),
     INDEX idx_verdict (verdict)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

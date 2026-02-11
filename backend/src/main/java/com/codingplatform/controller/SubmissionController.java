@@ -2,12 +2,14 @@ package com.codingplatform.controller;
 
 import com.codingplatform.dto.SubmissionRequest;
 import com.codingplatform.dto.SubmissionResponse;
+import com.codingplatform.security.UserContext;
 import com.codingplatform.service.JudgeService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -36,12 +38,20 @@ public class SubmissionController {
      * Submit code for evaluation.
      */
     @PostMapping("/submit")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<SubmissionResponse> submitCode(@Valid @RequestBody SubmissionRequest request) {
-        logger.info("POST /api/submit - problem={}, language={}",
-                request.getProblemId(), request.getLanguage());
+        Long userId = UserContext.getCurrentUserId();
+        
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(SubmissionResponse.error("Authentication required"));
+        }
+        
+        logger.info("POST /api/submit - problem={}, language={}, user={}",
+                request.getProblemId(), request.getLanguage(), userId);
 
         try {
-            SubmissionResponse response = judgeService.submitCode(request);
+            SubmissionResponse response = judgeService.submitCode(request, userId);
             return ResponseEntity.ok(response);
         } catch (JudgeService.JudgeServiceException e) {
             logger.error("Submission error: {}", e.getMessage());

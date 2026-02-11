@@ -1,6 +1,5 @@
 package com.codingplatform.controller;
 
-import com.codingplatform.dto.ProblemDetailDTO;
 import com.codingplatform.dto.ProblemListDTO;
 import com.codingplatform.service.ProblemService;
 import org.slf4j.Logger;

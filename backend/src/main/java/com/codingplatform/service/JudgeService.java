@@ -8,10 +8,13 @@ import com.codingplatform.dto.TestcaseDTO;
 import com.codingplatform.entity.Problem;
 import com.codingplatform.entity.Submission;
 import com.codingplatform.entity.Submission.Language;
+import com.codingplatform.entity.Submission.SubmissionStatus;
 import com.codingplatform.entity.Testcase;
+import com.codingplatform.entity.User;
 import com.codingplatform.repository.ProblemRepository;
 import com.codingplatform.repository.SubmissionRepository;
 import com.codingplatform.repository.TestcaseRepository;
+import com.codingplatform.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -42,35 +45,43 @@ public class JudgeService {
     private final TestcaseRepository testcaseRepository;
     private final SubmissionRepository submissionRepository;
     private final S3Service s3Service;
+    private final UserRepository userRepository;
 
     public JudgeService(RestTemplate restTemplate,
                         JudgeConfig judgeConfig,
                         ProblemRepository problemRepository,
                         TestcaseRepository testcaseRepository,
                         SubmissionRepository submissionRepository,
-                        S3Service s3Service) {
+                        S3Service s3Service,
+                        UserRepository userRepository) {
         this.restTemplate = restTemplate;
         this.judgeConfig = judgeConfig;
         this.problemRepository = problemRepository;
         this.testcaseRepository = testcaseRepository;
         this.submissionRepository = submissionRepository;
         this.s3Service = s3Service;
+        this.userRepository = userRepository;
     }
 
     /**
      * Submit code for evaluation.
      */
     @Transactional
-    public SubmissionResponse submitCode(SubmissionRequest request) {
+    public SubmissionResponse submitCode(SubmissionRequest request, Long userId) {
         String problemId = request.getProblemId();
         String languageStr = request.getLanguage().toLowerCase();
         String code = request.getCode();
 
-        logger.info("Received submission for problem: {} in {}", problemId, languageStr);
+        logger.info("Received submission for problem: {} in {} by user: {}", 
+                problemId, languageStr, userId);
 
         // Validate problem exists
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new JudgeServiceException("Problem not found: " + problemId));
+
+        // Get user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new JudgeServiceException("User not found"));
 
         // Parse language
         Language language;
@@ -80,11 +91,16 @@ public class JudgeService {
             throw new JudgeServiceException("Unsupported language: " + languageStr);
         }
 
-        // Create submission record
-        Submission submission = new Submission(problem, language, code);
+        // Create submission record with QUEUED status
+        Submission submission = new Submission(user, problem, language, code);
+        submission.setStatus(SubmissionStatus.QUEUED);
         submission = submissionRepository.save(submission);
 
         try {
+            // Update status to RUNNING
+            submission.setStatus(SubmissionStatus.RUNNING);
+            submissionRepository.save(submission);
+
             // Fetch testcases from S3
             List<Testcase> testcases = testcaseRepository.findByProblemIdOrdered(problemId);
             if (testcases.isEmpty()) {
@@ -102,7 +118,11 @@ public class JudgeService {
             // Send to judge service
             JudgeResultDTO judgeResult = callJudgeService(languageStr, code, testcaseDTOs);
 
+            // Map judge verdict to status
+            SubmissionStatus finalStatus = mapVerdictToStatus(judgeResult.getVerdict());
+
             // Update submission with result
+            submission.setStatus(finalStatus);
             submission.setVerdict(judgeResult.getVerdict());
             submission.setPassedTests(judgeResult.getPassed());
             submission.setTotalTests(judgeResult.getTotal());
@@ -116,6 +136,7 @@ public class JudgeService {
 
         } catch (S3Service.S3ServiceException e) {
             logger.error("S3 error during submission: {}", e.getMessage());
+            submission.setStatus(SubmissionStatus.RE);
             submission.setVerdict("Error");
             submission.setErrorMessage("Failed to fetch testcases");
             submissionRepository.save(submission);
@@ -123,11 +144,28 @@ public class JudgeService {
             
         } catch (JudgeServiceException e) {
             logger.error("Judge error: {}", e.getMessage());
+            submission.setStatus(SubmissionStatus.RE);
             submission.setVerdict("Error");
             submission.setErrorMessage(e.getMessage());
             submissionRepository.save(submission);
             return SubmissionResponse.error(e.getMessage());
         }
+    }
+
+    /**
+     * Map judge verdict string to SubmissionStatus enum.
+     */
+    private SubmissionStatus mapVerdictToStatus(String verdict) {
+        if (verdict == null) return SubmissionStatus.RE;
+        
+        return switch (verdict) {
+            case "Accepted" -> SubmissionStatus.ACCEPTED;
+            case "Wrong Answer" -> SubmissionStatus.WRONG_ANSWER;
+            case "Time Limit Exceeded" -> SubmissionStatus.TLE;
+            case "Runtime Error" -> SubmissionStatus.RE;
+            case "Compilation Error" -> SubmissionStatus.CE;
+            default -> SubmissionStatus.RE;
+        };
     }
 
     /**
@@ -180,7 +218,7 @@ public class JudgeService {
     public boolean isJudgeHealthy() {
         try {
             String healthUrl = judgeConfig.getJudgeBaseUrl() + "/health";
-            ResponseEntity<Map> response = restTemplate.getForEntity(healthUrl, Map.class);
+            ResponseEntity<Map<String, Object>> response = restTemplate.getForEntity(healthUrl, Map.class);
             return response.getStatusCode() == HttpStatus.OK;
         } catch (Exception e) {
             logger.warn("Judge health check failed: {}", e.getMessage());

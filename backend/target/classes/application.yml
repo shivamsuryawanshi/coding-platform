@@ -43,6 +43,11 @@ judge:
       connect: 5000
       read: 30000
 
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:CodeNexusSecretKeyForJWTTokenGeneration2024Production}
+  expiration: ${JWT_EXPIRATION:86400000}  # 24 hours in milliseconds
+
 # Logging configuration
 logging:
   level:
